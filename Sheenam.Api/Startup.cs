@@ -28,8 +28,8 @@ namespace Sheenam.Api
             };
 
             services.AddControllers();
-            services.AddDbContext<IStorageBroker, StorageBroker>();
-            services.AddTransient<IStorageBroker>();
+            services.AddDbContext<StorageBroker>();
+           
 
             services.AddSwaggerGen(options =>
             {
