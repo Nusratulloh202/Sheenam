@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Threading.Tasks;
 using Sheenam.Api.Brokers.Storages;
 using Sheenam.Api.Models.Foundations.Guests;
@@ -16,8 +17,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
             this.storageBroker = storageBroker;
 
 
-        public ValueTask<Guest> AddGuestAsync(Guest guest)=>
-            this.storageBroker.InsertGuestAsync(guest);
-
+        public ValueTask<Guest> AddGuestAsync(Guest guest) =>
+            throw new NotImplementedException();
     }
 }

@@ -2,16 +2,15 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
-using FluentAssertions;
 using Moq;
 using Sheenam.Api.Brokers.Storages;
 using Sheenam.Api.Models.Foundations.Guests;
-using Sheenam.Api.Models.Foundations.Guests.Enums;
 using Sheenam.Api.Services.Foundations.Guests;
+using Tynamix.ObjectFiller;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 {
-    public class GuestServiceTests
+    public partial class GuestServiceTests
     {
         private readonly Mock<IStorageBroker> storageBrokerMock;
         private readonly IGuestService guestService;
@@ -22,29 +21,16 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             this.guestService = new GuestService
                 (storageBroker: this.storageBrokerMock.Object);
         }
-
-        [Fact]
-        public async Task ShouldBeTrue()
+        private static Filler<Guest>CreateGuestFiller(DateTimeOffset date)
         {
-            //Arrange
-            Guest randomGuest=new Guest
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "RandomFirstName",
-                LastName = "RandomLastName",
-                DateOffBirth = DateTimeOffset.UtcNow,
-                Email = "RandomEmail",
-                PhoneNumber = "RandomPhoneNumber",
-                Address = "RandomAddress",
-                Gender = GenderType.Male
-            };
-            this.storageBrokerMock.Setup(broker =>
-                broker.InsertGuestAsync(randomGuest))
-                .ReturnsAsync(randomGuest);
-            //Act
-            Guest actualGuest = await this.guestService.AddGuestAsync(randomGuest);
-            //Assert
-            actualGuest.Should().BeEquivalentTo(randomGuest);
+            var filler = new Filler<Guest>();
+            filler.Setup()
+                .OnType<DateTimeOffset>().Use(date);
+            return filler;
         }
-    }
+        private static DateTimeOffset GetRandomDateTimeOffset() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
+        private static Guest CreateRandomGuest()=>
+            CreateGuestFiller(date:GetRandomDateTimeOffset()).Create();
+    } 
 }
