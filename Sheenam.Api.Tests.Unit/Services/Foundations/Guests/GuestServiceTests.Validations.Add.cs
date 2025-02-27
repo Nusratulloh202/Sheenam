@@ -29,7 +29,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             await Assert.ThrowsAsync<GuestValidationException>(() =>
                 addGuestTask.AsTask());
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionsAs(expectedGuestValidationException))),
+                broker.LogError(It.Is(SameExceptionAs(expectedGuestValidationException))),
                 Times.Once());
 
             this.storageBrokerMock.Verify(broker =>
