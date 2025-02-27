@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Moq;
 using Sheenam.Api.Brokers.Logings;
@@ -9,6 +10,7 @@ using Sheenam.Api.Brokers.Storages;
 using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Services.Foundations.Guests;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 {
@@ -25,6 +27,14 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             this.guestService = new GuestService
                 (storageBroker: this.storageBrokerMock.Object,
                  loggingBroker: this.loggingBrokerMock.Object);
+        }
+
+        private Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+            actualException.Message == expectedException.Message &&
+            actualException.InnerException.Message == expectedException.InnerException.Message &&
+            (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
         private static Filler<Guest>CreateGuestFiller(DateTimeOffset date)
         {
