@@ -52,32 +52,32 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             {
                 FirstName = invalidText
             };
-            var invalidGuestExceptions = new NullGuestExceptions();
-            invalidGuestExceptions.AddData(
+            var invalidGuestException = new InvalidGuestException();
+
+            invalidGuestException.AddData(
                 key: nameof(Guest.Id),
                 values: "Id is required");
-            invalidGuestExceptions.AddData(
+            invalidGuestException.AddData(
                 key: nameof(Guest.FirstName),
                 values: "Text is required");
-            invalidGuestExceptions.AddData(
+            invalidGuestException.AddData(
                 key: nameof(Guest.LastName),
                 values: "Text is required");
-            invalidGuestExceptions.AddData(
+            invalidGuestException.AddData(
                 key: nameof(Guest.DateOffBirth),
                 values: "Date is required");
-            invalidGuestExceptions.AddData(
+            invalidGuestException.AddData(
                 key: nameof(Guest.Email),
                 values: "Text is required");
-            invalidGuestExceptions.AddData(
+            invalidGuestException.AddData(
                 key: nameof(Guest.PhoneNumber),
                 values: "Text is required");
-            invalidGuestExceptions.AddData(
+            invalidGuestException.AddData(
                 key: nameof(Guest.Address),
                 values: "Text is required");
 
-            var expectedGuestValidationException = 
-                new GuestValidationException(invalidGuestExceptions);
-
+            var expectedGuestValidationException =
+                new GuestValidationException(invalidGuestException);
             //when
             ValueTask<Guest> addGuestTask = 
                 this.guestService.AddGuestAsync(invalidGuest);
