@@ -12,6 +12,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 {
     public partial class GuestServiceTests
     {
+        //SQL Exception uchun test
         [Fact]
         public async Task ShouldThrowCriticalDependencyExceptionOnAddIfSqlErrorOccursAndLogItAsync()
         {
@@ -83,10 +84,6 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
-
-
-
-
         }
     }
 }
