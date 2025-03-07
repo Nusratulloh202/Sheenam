@@ -3,6 +3,8 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
+using Microsoft.Data.SqlClient;
 using Moq;
 using Sheenam.Api.Brokers.Logings;
 using Sheenam.Api.Brokers.Storages;
@@ -49,6 +51,9 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             CreateGuestFiller(date:GetRandomDateTimeOffset()).Create();
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
+
+        private static SqlException GetSqlException()=>
+            FormatterServices.GetUninitializedObject(typeof(SqlException)) as SqlException;
 
         private static T GetInvalidEnum<T>()
         {
