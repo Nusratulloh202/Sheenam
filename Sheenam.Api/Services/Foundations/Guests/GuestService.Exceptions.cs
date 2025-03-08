@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
@@ -42,11 +43,11 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 var alreadyExistGuestException = new AlreadyExistGuestException(duplicateKeyException);
                 throw CreateAndLogDependencyValidationException(alreadyExistGuestException);
             }
-            //catch (Xeption exception)
-            //{
-            //    var failedGuestException = new FailedGuestServiceException(exception);
-            //    throw CreateAndLogServiceAllException(failedGuestException);
-            //}
+            catch (Exception exception)
+            {
+                var failedGuestException = new FailedGuestServiceException(exception);
+                throw CreateAndLogServiceAllException(failedGuestException);
+            }
         }
 
 
@@ -74,16 +75,16 @@ namespace Sheenam.Api.Services.Foundations.Guests
 
             return guestDependencyValidationException;
         }
-        //private static object CreateAndLogServiceAllException(Xeption xeption)
-        //{
-        //    var guestServiceAllException =
-        //        new GuestServiceAllException(xeption);
+        private GuestServiceAllException CreateAndLogServiceAllException(Xeption exception)
+        {
+            var guestServiceAllException =
+                new GuestServiceAllException(exception);
 
-        //    this.loggingBroker.LogError(guestServiceAllException);
+            this.loggingBroker.LogError(guestServiceAllException);
 
-        //    return guestServiceAllException;
+            return guestServiceAllException;
 
 
-        //}
+        }
     }
 }
