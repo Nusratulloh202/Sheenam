@@ -3,7 +3,6 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
