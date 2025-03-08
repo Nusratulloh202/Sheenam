@@ -103,7 +103,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
         public async Task ShouldThrowValidationExceptionOnAddIfGenderIsInvalidAndLogItAsync()
         {
             // given
-            Guest randomGuest =CreateRandomGuest();
+            Guest randomGuest = CreateRandomGuest();
             Guest invalidGuest = randomGuest;
             invalidGuest.Gender = GetInvalidEnum<GenderType>();
             var invalidGuestException = new InvalidGuestException();
@@ -112,7 +112,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 key: nameof(Guest.Gender),
                 values: "Value is invalid");
 
-            var expectedGuestValidationException = 
+            var expectedGuestValidationException =
                 new GuestValidationException(invalidGuestException);
 
             //when
@@ -120,10 +120,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 this.guestService.AddGuestAsync(invalidGuest);
 
             //then
-            await Assert.ThrowsAsync<GuestValidationException>(()=>
+            await Assert.ThrowsAsync<GuestValidationException>(() =>
                     addGuestTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(expectedGuestValidationException))),
                 Times.Once());
 

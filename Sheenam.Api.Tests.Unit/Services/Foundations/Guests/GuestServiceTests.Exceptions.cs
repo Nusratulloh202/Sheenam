@@ -7,6 +7,7 @@ using Moq;
 using Sheenam.Api.Models.Foundations.Guests;
 using EFxceptions.Models.Exceptions;
 using Sheenam.Api.Models.Foundations.Guests.Exceptions;
+using Xeptions;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 {
@@ -81,6 +82,43 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(expectedGuestValidationException))),
                 Times.Once());
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationOnAddIfAnyServiceErrorOccursAndLogItAsync()
+        {
+            //given
+            Guest someGuest = CreateRandomGuest();
+            string someMessage = GetRandomMessage();
+            var serviceException = new Exception(someMessage);
+
+            var failedGuestStorageException = 
+                new FailedGuestServiceException(serviceException);
+
+            var guestServiceAllException =
+                new GuestServiceAllException(failedGuestStorageException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertGuestAsync(someGuest))
+                    .ThrowsAsync(serviceException);
+            //when
+           ValueTask<Guest> addGuestTask =
+                this.guestService.AddGuestAsync(someGuest);
+
+            //then
+            await Assert.ThrowsAsync<GuestServiceAllException>(() =>
+                addGuestTask.AsTask());
+            
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertGuestAsync(someGuest),
+                Times.Once());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(guestServiceAllException))),
+                Times.Once());  
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
