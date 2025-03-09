@@ -30,9 +30,9 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                  loggingBroker: this.loggingBrokerMock.Object);
         }
 
-        private Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException)=>
-           actualException=>actualException.SameExceptionAs(expectedException);
-        private static Filler<Guest>CreateGuestFiller(DateTimeOffset date)
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
+           actualException => actualException.SameExceptionAs(expectedException);
+        private static Filler<Guest> CreateGuestFiller(DateTimeOffset date)
         {
             var filler = new Filler<Guest>();
             filler.Setup()
@@ -42,25 +42,25 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
-        private static Guest CreateRandomGuest()=>
-            CreateGuestFiller(date:GetRandomDateTimeOffset()).Create();
+        private static Guest CreateRandomGuest() =>
+            CreateGuestFiller(date: GetRandomDateTimeOffset()).Create();
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
         private static string GetRandomMessage() =>
             new MnemonicString().GetValue();
 
-        private static SqlException GetSqlException()=>
+        private static SqlException GetSqlException() =>
             FormatterServices.GetUninitializedObject(typeof(SqlException)) as SqlException;
 
         private static T GetInvalidEnum<T>()
         {
-            int randomNumber= GetRandomNumber();
+            int randomNumber = GetRandomNumber();
             while (Enum.IsDefined(typeof(T), randomNumber) is true)
             {
                 randomNumber = GetRandomNumber();
             }
             return (T)(object)randomNumber;
         }
-    } 
+    }
 }

@@ -2,12 +2,11 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Moq;
 using Sheenam.Api.Models.Foundations.Guests;
-using EFxceptions.Models.Exceptions;
 using Sheenam.Api.Models.Foundations.Guests.Exceptions;
-using Xeptions;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 {
@@ -20,7 +19,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             // given
             Guest someGuest = CreateRandomGuest();
             SqlException sqlException = GetSqlException();
-            var failedGuestStorageException =new FailedGuestStorageException(sqlException);
+            var failedGuestStorageException = new FailedGuestStorageException(sqlException);
 
             var expectedGuestDependencyException =
                 new GuestDependencyException(failedGuestStorageException);
@@ -30,7 +29,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 .ThrowsAsync(sqlException);
 
             // when
-            ValueTask<Guest> addGuestTask = 
+            ValueTask<Guest> addGuestTask =
                 this.guestService.AddGuestAsync(someGuest);
 
             // then
@@ -72,7 +71,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 this.guestService.AddGuestAsync(sameGuest);
 
             //then
-            await Assert.ThrowsAsync<GuestDependencyValidationException>(()=>
+            await Assert.ThrowsAsync<GuestDependencyValidationException>(() =>
                 addGuestTask.AsTask());
 
             this.storageBrokerMock.Verify(broker =>
@@ -95,7 +94,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             string someMessage = GetRandomMessage();
             var serviceException = new Exception(someMessage);
 
-            var failedGuestStorageException = 
+            var failedGuestStorageException =
                 new FailedGuestServiceException(serviceException);
 
             var guestServiceAllException =
@@ -105,20 +104,20 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 broker.InsertGuestAsync(someGuest))
                     .ThrowsAsync(serviceException);
             //when
-           ValueTask<Guest> addGuestTask =
-                this.guestService.AddGuestAsync(someGuest);
+            ValueTask<Guest> addGuestTask =
+                 this.guestService.AddGuestAsync(someGuest);
 
             //then
             await Assert.ThrowsAsync<GuestServiceAllException>(() =>
                 addGuestTask.AsTask());
-            
+
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertGuestAsync(someGuest),
                 Times.Once());
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(guestServiceAllException))),
-                Times.Once());  
+                Times.Once());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
