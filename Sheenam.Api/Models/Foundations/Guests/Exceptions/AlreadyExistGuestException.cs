@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Guests.Exceptions
 {
-    public class AlreadyExistGuestException:Xeption
+    public class AlreadyExistGuestException : Xeption
     {
         public AlreadyExistGuestException(Exception exception)
-            : base(message:"Guest with the same id already exists.", exception)
+            : base(message: "Guest with the same id already exists.", exception)
         { }
     }
 }

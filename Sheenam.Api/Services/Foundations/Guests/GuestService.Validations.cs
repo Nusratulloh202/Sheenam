@@ -32,7 +32,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
                     (Rule: IsInvalid(guest.DateOffBirth), Parameter: nameof(guest.DateOffBirth)),
                     (Rule: IsInvalid(guest.Gender), Parameter: nameof(guest.Gender)));
         }
-        
+
         private static dynamic IsInvalid(Guid id) => new
         {
             Condition = id == Guid.Empty,
@@ -50,15 +50,15 @@ namespace Sheenam.Api.Services.Foundations.Guests
         };
         private static dynamic IsInvalid(GenderType gender) => new
         {
-            Condition = Enum.IsDefined(gender) is false, 
+            Condition = Enum.IsDefined(gender) is false,
             Message = "Value is invalid"
         };
 
-        private static  void Validate(params(dynamic Rule, string Parametr)[] validations)
+        private static void Validate(params (dynamic Rule, string Parametr)[] validations)
         {
             var invalidGuestException = new InvalidGuestException();
 
-            foreach((dynamic rule, string parametr) in validations)
+            foreach ((dynamic rule, string parametr) in validations)
             {
                 if (rule.Condition)
                 {
