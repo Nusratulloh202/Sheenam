@@ -3,6 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -16,6 +17,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
 
     {
         private delegate ValueTask<Guest> ReturningGuestFunction();
+        private delegate IQueryable<Guest> ReturningGuestsFunction();
 
         private async ValueTask<Guest> TryCatch(ReturningGuestFunction returningGuestFunction)
         {
@@ -48,6 +50,26 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 throw CreateAndLogServiceAllException(failedGuestException);
             }
         }
+
+        private IQueryable<Guest> TryCatch(ReturningGuestsFunction returningGuestsFunction)
+        {
+            try
+            {
+                return returningGuestsFunction();
+            }
+            catch (SqlException sqlException)
+            {
+                var failedGuestStorageException =
+                    new FailedGuestStorageException(sqlException);
+                throw CreateAndLogDependencyException(failedGuestStorageException);
+            }
+            catch (Exception exception)
+            {
+                var failedGuestException = new FailedGuestServiceException(exception);
+                throw CreateAndLogServiceAllException(failedGuestException);
+            }
+        }
+
 
 
         private GuestValidationException CreateAndLogValidationException(Xeption exception)

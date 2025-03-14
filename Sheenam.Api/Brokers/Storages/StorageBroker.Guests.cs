@@ -2,6 +2,8 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -23,6 +25,18 @@ namespace Sheenam.Api.Brokers.Storages
             await broker.SaveChangesAsync();
 
             return guestEntityEntry.Entity;
+        }
+
+        private IQueryable<T> SelectAll<T>() where T : class
+        {
+            var broker = new StorageBroker(this.configuration);
+
+            return broker.Set<T>();
+        }
+        public  IQueryable<Guest> SelectAllGuests()
+        {
+            var clients = SelectAll<Guest>();
+            return clients;
         }
     }
 }
