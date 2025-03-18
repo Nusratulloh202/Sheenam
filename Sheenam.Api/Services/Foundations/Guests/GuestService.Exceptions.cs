@@ -104,8 +104,6 @@ namespace Sheenam.Api.Services.Foundations.Guests
             this.loggingBroker.LogError(guestServiceAllException);
 
             return guestServiceAllException;
-
-
         }
     }
 }
