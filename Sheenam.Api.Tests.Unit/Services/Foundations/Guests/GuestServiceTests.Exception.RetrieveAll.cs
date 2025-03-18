@@ -25,17 +25,17 @@ public partial class GuestServiceTests
     //    broker.SelectAllGuests()).Throws(sqlException);
 
     //    //when
-    //    Action retrieveAllGuestsAction= () =>
+    //    Action retrieveAllGuestsAction = () =>
     //        this.guestService.RetrieveAllGuests();
-    //    GuestDependencyException actualGuestDependensyException=
+    //    GuestDependencyException actualGuestDependensyException =
     //        Assert.Throws<GuestDependencyException>(retrieveAllGuestsAction);
 
     //    //then
     //    actualGuestDependensyException.Should()
     //        .BeEquivalentTo(expectedGuestDependencyException);
 
-    //    this.storageBrokerMock.Verify(broker => 
-    //        broker.SelectAllGuests(), 
+    //    this.storageBrokerMock.Verify(broker =>
+    //        broker.SelectAllGuests(),
     //        Times.Once());
 
     //    this.loggingBrokerMock.Verify(broker =>
@@ -46,5 +46,44 @@ public partial class GuestServiceTests
     //    this.loggingBrokerMock.VerifyNoOtherCalls();
 
 
-    //}
+   // }
+
+    [Fact]
+    public void ShouldThrowServiceExceptionOnRetriveAllIfServiceErrorOccursAndLogIt()
+    {
+        //given 
+        string exceptionMessage = GetRandomMessage();
+        var serverException = new Exception(message:exceptionMessage);
+
+        var failedGuestServiceException =
+            new FailedGuestServiceException(serverException);
+
+        var expectedGuestSeviceAllException=
+            new GuestServiceAllException(failedGuestServiceException);
+         
+        this.storageBrokerMock.Setup(broker =>
+        broker.SelectAllGuests()).Throws(serverException);
+
+        //when
+        Action retriveAllGuestAction=()=>
+            this.guestService.RetrieveAllGuests();
+
+        GuestServiceAllException actualServiceException = 
+            Assert.Throws<GuestServiceAllException>(retriveAllGuestAction);
+
+        //then
+        actualServiceException.Should().BeEquivalentTo(expectedGuestSeviceAllException);
+
+        this.storageBrokerMock.Verify(broker=>
+        broker.SelectAllGuests(), Times.Once());
+
+        this.loggingBrokerMock.Verify(broker=>
+            broker.LogError(It.Is(SameExceptionAs(expectedGuestSeviceAllException))),
+            Times.Once);
+
+        this.storageBrokerMock.VerifyNoOtherCalls();
+        this.loggingBrokerMock.VerifyNoOtherCalls();
+        
+
+    }
 }
