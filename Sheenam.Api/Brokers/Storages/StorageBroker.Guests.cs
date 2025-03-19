@@ -2,7 +2,6 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +32,7 @@ namespace Sheenam.Api.Brokers.Storages
 
             return broker.Set<T>();
         }
-        public  IQueryable<Guest> SelectAllGuests()
+        public IQueryable<Guest> SelectAllGuests()
         {
             var clients = SelectAll<Guest>();
             return clients;
