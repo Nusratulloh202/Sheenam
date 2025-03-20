@@ -38,7 +38,7 @@ namespace Sheenam.Api.Brokers.Storages
             var clients = SelectAll<Guest>();
             return clients;
         }
-        public ValueTask<Guest> SelectGuestById(Guid guestId)
+        public ValueTask<Guest> SelectGuestByIdAsync(Guid guestId)
         {
            var guestIdInfo = Guests
                 .FirstOrDefault(x => x.Id == guestId);
