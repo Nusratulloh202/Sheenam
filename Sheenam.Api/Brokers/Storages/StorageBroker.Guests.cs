@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,12 @@ namespace Sheenam.Api.Brokers.Storages
         {
             var clients = SelectAll<Guest>();
             return clients;
+        }
+        public ValueTask<Guest> SelectGuestById(Guid guestId)
+        {
+           var guestIdInfo = Guests
+                .FirstOrDefault(x => x.Id == guestId);
+            return ValueTask.FromResult(guestIdInfo);
         }
     }
 }
