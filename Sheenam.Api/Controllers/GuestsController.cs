@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -58,7 +59,7 @@ namespace Sheenam.Api.Controllers
                 return Ok(guests);
             }
 
-            
+
             catch (GuestDependencyException guestDependencyException)
             {
                 return InternalServerError(guestDependencyException.InnerException);
@@ -67,6 +68,35 @@ namespace Sheenam.Api.Controllers
             {
                 return InternalServerError(guestServiceAllException.InnerException);
             }
+        }
+
+        [HttpGet("ById")]
+        public async Task<ActionResult<Guest>>GetGuestByIdAsync(Guid guestId)
+        {
+            try
+            {
+                Guest guest = await this.guestService.RetrieveGuestByIdAsync(guestId);
+                return Ok(guest);
+            }
+            catch (GuestDependencyException dependencyException)
+            {
+                return InternalServerError(dependencyException.InnerException);
+            }
+            catch (GuestValidationException guestValidationException)
+                when (guestValidationException.InnerException is InvalidGuestException)
+            {
+                return BadRequest(guestValidationException.InnerException);
+            }
+            catch (GuestValidationException guestValidationException)
+                when (guestValidationException.InnerException is NotFoundGuestException)
+            {
+                return NotFound(guestValidationException.InnerException);
+            }
+            catch (GuestServiceAllException guestServicesAllException)
+            {
+                return InternalServerError(guestServicesAllException.InnerException);
+            }
+
         }
 
     }
