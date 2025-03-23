@@ -81,7 +81,6 @@ namespace Sheenam.Api.Services.Foundations.Guests
         private static void ValidateAgainstStorageGuestOnModify(Guest guest, Guest storageGuest)
         {
             ValidateStorageGuest(storageGuest, guest.Id);
-            ValidateGuestOnModify(storageGuest);
         }
 
         private static void Validate(params (dynamic Rule, string Parametr)[] validations)
