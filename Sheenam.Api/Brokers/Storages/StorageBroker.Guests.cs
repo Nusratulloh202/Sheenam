@@ -44,7 +44,7 @@ namespace Sheenam.Api.Brokers.Storages
                  .FirstOrDefault(x => x.Id == guestId);
             return ValueTask.FromResult(guestIdInfo);
         }
-        public async ValueTask<Guest> UpdateClientAsync(Guest guest)
+        public async ValueTask<Guest> UpdateGuestAsync(Guest guest)
         {
             var broker = new StorageBroker(this.configuration);
             broker.Entry(guest).State = EntityState.Modified;
