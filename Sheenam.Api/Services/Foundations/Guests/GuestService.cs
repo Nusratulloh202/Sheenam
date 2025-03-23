@@ -29,9 +29,10 @@ namespace Sheenam.Api.Services.Foundations.Guests
             ValidateGuestOnAdd(guest);
             return await this.storageBroker.InsertGuestAsync(guest);
         });
+        //Read All (Retrieve All)
         public IQueryable<Guest> RetrieveAllGuests() =>
             TryCatch(() => this.storageBroker.SelectAllGuests());
-
+        //Read Id (Retrieve Id)
         public ValueTask<Guest> RetrieveGuestByIdAsync(Guid guestId) =>
             TryCatch(async () =>
             {
@@ -39,6 +40,16 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 Guest maybeGuest = await this.storageBroker.SelectGuestByIdAsync(guestId);
                 ValidateStorageGuest(maybeGuest, guestId);
                 return maybeGuest;
+            });
+        //Update (Modify)
+        public ValueTask<Guest> ModifyGuestAsync(Guest guest) =>
+            TryCatch(async () =>
+            {
+                ValidateGuestOnModify(guest);
+                Guest maybeGuest=await this.storageBroker.SelectGuestByIdAsync(guest.Id);
+                ValidateAgainstStorageGuestOnModify(guest, maybeGuest);
+
+                return await this.storageBroker.UpdateGuestAsync(maybeGuest);
             });
     }
 }
