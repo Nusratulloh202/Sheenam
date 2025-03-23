@@ -3,6 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System;
+using System.Data;
 using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Guests.Enums;
 using Sheenam.Api.Models.Foundations.Guests.Exceptions;
@@ -11,7 +12,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
 {
     public partial class GuestService
     {
-        private void ValidateGuestNotNull(Guest guest)
+        private static void ValidateGuestNotNull(Guest guest)
         {
             if (guest is null)
             {
@@ -62,6 +63,27 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 throw new NotFoundGuestException(guestId);
             }
         }
+        private static void ValidateGuestOnModify(Guest guest)
+        {
+            ValidateGuestNotNull(guest);
+
+            Validate(
+                    (Rule: IsInvalid(guest.Id), Parameter: nameof(guest.Id)),
+                    (Rule: IsInvalid(guest.FirstName), Parameter: nameof(guest.FirstName)),
+                    (Rule: IsInvalid(guest.LastName), Parameter: nameof(guest.LastName)),
+                    (Rule: IsInvalid(guest.Email), Parameter: nameof(guest.Email)),
+                    (Rule: IsInvalid(guest.PhoneNumber), Parameter: nameof(guest.PhoneNumber)),
+                    (Rule: IsInvalid(guest.Address), Parameter: nameof(guest.Address)),
+                    (Rule: IsInvalid(guest.DateOffBirth), Parameter: nameof(guest.DateOffBirth)),
+                    (Rule: IsInvalid(guest.Gender), Parameter: nameof(guest.Gender)));
+        }
+
+        private static void ValidateAgainstStorageGuestOnModify(Guest guest, Guest storageGuest)
+        {
+            ValidateStorageGuest(storageGuest, guest.Id);
+            ValidateGuestOnModify(storageGuest);
+        }
+
         private static void Validate(params (dynamic Rule, string Parametr)[] validations)
         {
             var invalidGuestException = new InvalidGuestException();

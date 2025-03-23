@@ -19,18 +19,18 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guid someId = Guid.NewGuid();
             SqlException sqlException = GetSqlException();
 
-            var failedGuestStorageException = 
+            var failedGuestStorageException =
                 new FailedGuestStorageException(sqlException);
 
-            var expectedGuestDependencyException= 
+            var expectedGuestDependencyException =
                 new GuestDependencyException(failedGuestStorageException);
 
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectGuestByIdAsync(It.IsAny<Guid>()))
                     .ThrowsAsync(sqlException);
-        
+
             //when
-            ValueTask<Guest>retrieveGuestById =
+            ValueTask<Guest> retrieveGuestById =
                 this.guestService.RetrieveGuestByIdAsync(someId);
 
             GuestDependencyException actualGuestDependencyException =
@@ -40,7 +40,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             //then
             actualGuestDependencyException.Should().BeEquivalentTo(expectedGuestDependencyException);
 
-            this.storageBrokerMock.Verify(broker=>
+            this.storageBrokerMock.Verify(broker =>
                 broker.SelectGuestByIdAsync(someId), Times.Once());
 
             this.loggingBrokerMock.Verify(broker =>
@@ -58,7 +58,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guid someId = Guid.NewGuid();
             var serverException = new Exception();
 
-            var failedGuestServiceException = 
+            var failedGuestServiceException =
                 new FailedGuestServiceException(serverException);
 
             var expectedGuestServiceAllException =

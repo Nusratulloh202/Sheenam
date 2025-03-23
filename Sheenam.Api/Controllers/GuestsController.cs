@@ -71,7 +71,7 @@ namespace Sheenam.Api.Controllers
         }
 
         [HttpGet("ById")]
-        public async Task<ActionResult<Guest>>GetGuestByIdAsync(Guid guestId)
+        public async Task<ActionResult<Guest>> GetGuestByIdAsync(Guid guestId)
         {
             try
             {
