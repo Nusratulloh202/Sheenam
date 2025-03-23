@@ -83,7 +83,5 @@ public partial class GuestServiceTests
 
         this.storageBrokerMock.VerifyNoOtherCalls();
         this.loggingBrokerMock.VerifyNoOtherCalls();
-
-
     }
 }

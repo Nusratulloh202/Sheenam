@@ -4,6 +4,7 @@
 //==================================================
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Guests.Exceptions;
@@ -52,6 +53,50 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             this.storageBrokerMock.Verify(broker=>
                 broker.UpdateGuestAsync(someGuest),Times.Never());
 
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnModifyIfDatabaseUpdateExceptionOccursAndLogItAsync()
+        {
+            //given
+            Guest randomGuest = CreateRandomGuest();
+            Guest someGuest = randomGuest;
+            Guid guestId = someGuest.Id;
+            var databaseUpdateException = 
+                new DbUpdateException();
+
+            var failedGuestStorageException = 
+                new FailedGuestStorageException(databaseUpdateException);
+
+            var expectedGuestDependencyException =
+                new GuestDependencyException(failedGuestStorageException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectGuestByIdAsync(someGuest.Id)).ThrowsAsync(databaseUpdateException);
+
+            //when
+            ValueTask<Guest> modifyGuestTask =
+                this.guestService.ModifyGuestAsync(someGuest);
+
+            //then
+            await Assert.ThrowsAsync<GuestDependencyException>
+                (modifyGuestTask.AsTask);
+
+            this.loggingBrokerMock.Verify(broker=>
+                broker.LogError(It.Is(SameExceptionAs
+                (expectedGuestDependencyException))),
+                Times.Once());
+
+            this.storageBrokerMock.Verify(broker=>
+                broker.SelectGuestByIdAsync (someGuest.Id),
+                Times.Once());
+
+            this.storageBrokerMock.Verify(broker=>
+                broker.UpdateGuestAsync(someGuest),
+                Times.Never());  
+            
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
