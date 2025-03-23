@@ -35,14 +35,22 @@ namespace Sheenam.Api.Brokers.Storages
         }
         public IQueryable<Guest> SelectAllGuests()
         {
-            var clients = SelectAll<Guest>();
-            return clients;
+            var guests = SelectAll<Guest>();
+            return guests;
         }
         public ValueTask<Guest> SelectGuestByIdAsync(Guid guestId)
         {
-           var guestIdInfo = Guests
-                .FirstOrDefault(x => x.Id == guestId);
+            var guestIdInfo = Guests
+                 .FirstOrDefault(x => x.Id == guestId);
             return ValueTask.FromResult(guestIdInfo);
+        }
+        public async ValueTask<Guest> UpdateClientAsync(Guest guest)
+        {
+            var broker = new StorageBroker(this.configuration);
+            broker.Entry(guest).State = EntityState.Modified;
+            await broker.SaveChangesAsync();
+
+            return guest;
         }
     }
 }
