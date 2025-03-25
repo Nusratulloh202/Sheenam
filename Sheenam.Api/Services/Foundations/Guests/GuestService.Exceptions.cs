@@ -45,6 +45,11 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 var alreadyExistGuestException = new AlreadyExistGuestException(duplicateKeyException);
                 throw CreateAndLogDependencyValidationException(alreadyExistGuestException);
             }
+            catch(DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                LockedGuestException lockedGuestException=new LockedGuestException(dbUpdateConcurrencyException);
+                throw CreateAndLogDependencyValidationException(lockedGuestException);
+            }
             catch (DbUpdateException dbUpdateException)
             {
                 var failedGuestStorageException = new FailedGuestStorageException(dbUpdateException);
@@ -110,6 +115,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
 
             return guestDependencyValidationException;
         }
+
         private GuestServiceAllException CreateAndLogServiceAllException(Xeption exception)
         {
             var guestServiceAllException =
