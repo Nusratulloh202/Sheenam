@@ -56,11 +56,11 @@ namespace Sheenam.Api.Services.Foundations.Guests
 
                 throw CreateAndLogErrorDependencyException(failedGuestStorageException);
             }
-            catch (Exception exception)
-            {
-                var failedGuestException = new FailedGuestServiceException(exception);
-                throw CreateAndLogServiceAllException(failedGuestException);
-            }
+            //catch (Exception exception)
+            //{
+            //    var failedGuestException = new FailedGuestServiceException(exception);
+            //    throw CreateAndLogServiceAllException(failedGuestException);
+            //}
         }
 
         private IQueryable<Guest> TryCatch(ReturningGuestsFunction returningGuestsFunction)
