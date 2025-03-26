@@ -11,32 +11,37 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 {
     public partial class GuestServiceTests
     {
-        //Logic
         [Fact]
-        public async Task ShoulModifyGuestAsync()
+        public async Task ShouldModifyGuestAsync()
         {
-            //given
-            Guest randomGuest= CreateRandomGuest();
+            // given 
+            Guest randomGuest = CreateRandomGuest();
             Guest inputGuest = randomGuest;
-            Guest persistedGuest= inputGuest.DeepClone();
-            Guest updateGuest = inputGuest;
-            Guest expectedGuest = updateGuest.DeepClone();
-            Guid inputGuestId=inputGuest.Id;
+            Guest persistedGuest = inputGuest.DeepClone();
+            Guest updatedGuest = inputGuest;
+            Guest expectedGuest = updatedGuest.DeepClone();
+            Guid inputGuestId = inputGuest.Id;
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectGuestByIdAsync(inputGuestId))
+                    .ReturnsAsync(persistedGuest);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.UpdateGuestAsync(inputGuest))
+                    .ReturnsAsync(updatedGuest);
 
             //when
             Guest actualGuest =
                 await this.guestService.ModifyGuestAsync(inputGuest);
 
-            //then
+            // then
             actualGuest.Should().BeEquivalentTo(expectedGuest);
 
-            this.storageBrokerMock.Verify(broker=>
-                broker.SelectGuestByIdAsync(inputGuestId),
-                Times.Once);
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectGuestByIdAsync(inputGuestId), Times.Once());
 
-            this.storageBrokerMock.Verify(broker=>
-                broker.UpdateGuestAsync(inputGuest), 
-                Times.Once);
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateGuestAsync(inputGuest), Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
