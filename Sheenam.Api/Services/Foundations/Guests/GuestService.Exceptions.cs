@@ -49,9 +49,9 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 var alreadyExistGuestException = new AlreadyExistGuestException(duplicateKeyException);
                 throw CreateAndLogDependencyValidationException(alreadyExistGuestException);
             }
-            catch(DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
             {
-                LockedGuestException lockedGuestException=new LockedGuestException(dbUpdateConcurrencyException);
+                LockedGuestException lockedGuestException = new LockedGuestException(dbUpdateConcurrencyException);
                 throw CreateAndLogDependencyValidationException(lockedGuestException);
             }
             catch (DbUpdateException dbUpdateException)
@@ -100,7 +100,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
             this.loggingBroker.LogCritical(guestDependencyException);
 
             return guestDependencyException;
-        }     
+        }
         private GuestDependencyException CreateAndLogErrorDependencyException(Xeption exception)
         {
             var guestDependencyException = new GuestDependencyException(exception);
