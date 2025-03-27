@@ -17,14 +17,14 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             //given
             Guest nullGuest = null;
 
-            var nullGuestExceptions = 
+            var nullGuestExceptions =
                 new NullGuestException();
 
-            var expectedGuestValidationException = 
+            var expectedGuestValidationException =
                 new GuestValidationException(nullGuestExceptions);
 
             //when
-            ValueTask<Guest> modifyGuestTask = 
+            ValueTask<Guest> modifyGuestTask =
                 this.guestService.ModifyGuestAsync(nullGuest);
 
             GuestValidationException actualGuestValidationExcception =
@@ -85,11 +85,11 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 key: nameof(Guest.Address),
                 values: "Text is required");
 
-            var expectedGuestValidationException = 
+            var expectedGuestValidationException =
                 new GuestValidationException(invalidGuestException);
 
             //when
-            ValueTask<Guest> modifyGuestTask = 
+            ValueTask<Guest> modifyGuestTask =
                 this.guestService.ModifyGuestAsync(invalidGuest);
 
             GuestValidationException actualGuestValidationException =
@@ -100,7 +100,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 .BeEquivalentTo(expectedGuestValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(expectedGuestValidationException))), 
+                broker.LogError(It.Is(SameExceptionAs(expectedGuestValidationException))),
                 Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
@@ -118,10 +118,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guest nonExistGuest = randomGuest;
             Guest nullGuest = null;
 
-            var notFoundGuestException = 
+            var notFoundGuestException =
                 new NotFoundGuestException(nonExistGuest.Id);
 
-            var expectedGuestValidationException = 
+            var expectedGuestValidationException =
                 new GuestValidationException(notFoundGuestException);
 
             this.storageBrokerMock.Setup(broker =>

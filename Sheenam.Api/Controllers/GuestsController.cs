@@ -98,7 +98,7 @@ namespace Sheenam.Api.Controllers
             }
         }
         [HttpPut]
-        public async Task<ActionResult<Guest>>PutGuestAsync(Guest guest)
+        public async Task<ActionResult<Guest>> PutGuestAsync(Guest guest)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Sheenam.Api.Controllers
             {
                 return NotFound(guestValidationException.InnerException);
             }
-           
+
             catch (GuestValidationException guestValidationException)
             {
                 return BadRequest(guestValidationException.InnerException);

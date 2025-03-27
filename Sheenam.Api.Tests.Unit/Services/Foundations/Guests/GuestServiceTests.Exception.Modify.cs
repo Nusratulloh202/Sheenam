@@ -26,14 +26,14 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             var failedGuestStorageException =
                 new FailedGuestStorageException(sqlException);
 
-            var excpectedGuestDependencyException = 
+            var excpectedGuestDependencyException =
                 new GuestDependencyException(failedGuestStorageException);
 
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectGuestByIdAsync(guestId)).Throws(sqlException);
 
             //when
-            ValueTask<Guest> modifyGuestTask = 
+            ValueTask<Guest> modifyGuestTask =
                 this.guestService.ModifyGuestAsync(someGuest);
 
             GuestDependencyException actualGuestDependencyException =
@@ -43,16 +43,16 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             actualGuestDependencyException.Should()
                 .BeEquivalentTo(excpectedGuestDependencyException);
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(excpectedGuestDependencyException))),
                 Times.Once());
 
-            this.storageBrokerMock.Verify(broker=>
+            this.storageBrokerMock.Verify(broker =>
                 broker.SelectGuestByIdAsync(guestId),
                 Times.Once());
 
-            this.storageBrokerMock.Verify(broker=>
-                broker.UpdateGuestAsync(someGuest),Times.Never());
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateGuestAsync(someGuest), Times.Never());
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
@@ -65,10 +65,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guest randomGuest = CreateRandomGuest();
             Guest someGuest = randomGuest;
             Guid guestId = someGuest.Id;
-            var databaseUpdateException = 
+            var databaseUpdateException =
                 new DbUpdateException();
 
-            var failedGuestStorageException = 
+            var failedGuestStorageException =
                 new FailedGuestStorageException(databaseUpdateException);
 
             var expectedGuestDependencyException =
@@ -85,24 +85,24 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             await Assert.ThrowsAsync<GuestDependencyException>
                 (modifyGuestTask.AsTask);
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs
                 (expectedGuestDependencyException))),
                 Times.Once());
 
-            this.storageBrokerMock.Verify(broker=>
-                broker.SelectGuestByIdAsync (someGuest.Id),
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectGuestByIdAsync(someGuest.Id),
                 Times.Once());
 
-            this.storageBrokerMock.Verify(broker=>
+            this.storageBrokerMock.Verify(broker =>
                 broker.UpdateGuestAsync(someGuest),
-                Times.Never());  
-            
+                Times.Never());
+
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
 
-       //qora ruyxatdagi guestni update qilmaslik uchun test
+        //qora ruyxatdagi guestni update qilmaslik uchun test
         [Fact]
 
         public async Task ShouldThrowDependencyValidationExceptionOnModifyIfDatabaseUpdateConcurrencyErrorOccursAndLogItAsync()
@@ -111,10 +111,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guest someGuest = randomGuest;
             Guid guestId = someGuest.Id;
 
-            DbUpdateConcurrencyException dbUpdateConcurrencyException = 
-                new DbUpdateConcurrencyException ();
-           
-            var lockedGuestException = 
+            DbUpdateConcurrencyException dbUpdateConcurrencyException =
+                new DbUpdateConcurrencyException();
+
+            var lockedGuestException =
                 new LockedGuestException(dbUpdateConcurrencyException);
 
             var expectedGuestDependencyValidationException =
@@ -124,7 +124,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 broker.SelectGuestByIdAsync(guestId)).Throws(dbUpdateConcurrencyException);
 
             //when
-            ValueTask<Guest> modifyGuestTask=
+            ValueTask<Guest> modifyGuestTask =
                 this.guestService.ModifyGuestAsync(someGuest);
 
             GuestDependencyValidationException actualGuestDependencyValidationException = await
@@ -133,18 +133,18 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             //then
             actualGuestDependencyValidationException.Should()
                 .BeEquivalentTo(expectedGuestDependencyValidationException);
-            
-            this.storageBrokerMock.Verify(broker=>
+
+            this.storageBrokerMock.Verify(broker =>
                 broker.SelectGuestByIdAsync(guestId), Times.Once());
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs
-                (expectedGuestDependencyValidationException))), 
+                (expectedGuestDependencyValidationException))),
                 Times.Once());
-            
 
-            this.storageBrokerMock.Verify(broker=>
-                broker.UpdateGuestAsync(someGuest), 
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateGuestAsync(someGuest),
                 Times.Never());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
@@ -160,37 +160,37 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guid guestId = someGuest.Id;
             var serviceException = new Exception();
 
-            var failedGuestServiceException = 
+            var failedGuestServiceException =
                 new FailedGuestServiceException(serviceException);
 
-            var expectedGuestServiceAllException=
+            var expectedGuestServiceAllException =
                 new GuestServiceAllException(failedGuestServiceException);
 
-            this.storageBrokerMock.Setup(broker=>
+            this.storageBrokerMock.Setup(broker =>
                 broker.SelectGuestByIdAsync(guestId))
                 .Throws(serviceException);
-            
+
             //when
-            ValueTask<Guest> modifyGuestTask=
+            ValueTask<Guest> modifyGuestTask =
                 this.guestService.ModifyGuestAsync(someGuest);
 
-            GuestServiceAllException actualGuestServiceAllException = 
+            GuestServiceAllException actualGuestServiceAllException =
                 await Assert.ThrowsAsync<GuestServiceAllException>(modifyGuestTask.AsTask);
 
             //then
             actualGuestServiceAllException.Should()
                 .BeEquivalentTo(expectedGuestServiceAllException);
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(expectedGuestServiceAllException))),
                 Times.Once);
 
-            this.storageBrokerMock.Verify(broker=>
+            this.storageBrokerMock.Verify(broker =>
                 broker.SelectGuestByIdAsync(guestId),
                 Times.Once);
-            
-            this.storageBrokerMock.Verify(broker=>
-                broker.UpdateGuestAsync(someGuest), 
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateGuestAsync(someGuest),
                 Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
