@@ -46,7 +46,9 @@ namespace Sheenam.Api.Services.Foundations.Guests
             TryCatch(async () =>
             {
                 ValidateGuestOnModify(guest);
+
                 Guest maybeGuest=await this.storageBroker.SelectGuestByIdAsync(guest.Id);
+
                 ValidateAgainstStorageGuestOnModify(guest, maybeGuest);
 
                 return await this.storageBroker.UpdateGuestAsync(guest);

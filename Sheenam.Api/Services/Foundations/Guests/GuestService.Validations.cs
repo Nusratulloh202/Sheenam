@@ -77,7 +77,8 @@ namespace Sheenam.Api.Services.Foundations.Guests
                     (Rule: IsInvalid(guest.DateOffBirth), Parameter: nameof(guest.DateOffBirth)),
                     (Rule: IsInvalid(guest.Gender), Parameter: nameof(guest.Gender)));
         }
-        private static void ValidateAgainstStorageClientOnModify(Guest guest, Guest storageGuest)
+
+        private static void ValidateAgainstStorageGuestOnModify(Guest guest, Guest storageGuest)
         {
             ValidateStorageGuest(storageGuest, guest.Id);
 
@@ -89,11 +90,6 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 (Rule: IsInvalid(guest.Email), Parameter: nameof(Guest.Email)),
                 (Rule: IsInvalid(guest.PhoneNumber), Parameter: nameof(Guest.PhoneNumber)),
                 (Rule: IsInvalid(guest.Address), Parameter: nameof(Guest.Address)));
-        }
-
-        private static void ValidateAgainstStorageGuestOnModify(Guest guest, Guest storageGuest)
-        {
-            ValidateStorageGuest(storageGuest, guest.Id);
         }
 
         private static void Validate(params (dynamic Rule, string Parametr)[] validations)
