@@ -12,16 +12,16 @@ namespace Sheenam.Api.Services.Foundations.Guests
 {
     public partial class GuestService
     {
-        private static void ValidateGuestNotNull(Guest guest)
-        {
-            if (guest is null)
-            {
-                throw new NullGuestExceptions();
-            }
-        }
+        //private static void ValidateGuestNotNull(Guest guest)
+        //{
+        //    if (guest is null)
+        //    {
+        //        throw new NullGuestExceptions();
+        //    }
+        //}
         private void ValidateGuestOnAdd(Guest guest)
         {
-            ValidateGuestNotNull(guest);
+           // ValidateGuestNotNull(guest);
 
             Validate(
                     (Rule: IsInvalid(guest.Id), Parameter: nameof(guest.Id)),
@@ -65,7 +65,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
         }
         private static void ValidateGuestOnModify(Guest guest)
         {
-            ValidateGuestNotNull(guest);
+            //ValidateGuestNotNull(guest);
 
             Validate(
                     (Rule: IsInvalid(guest.Id), Parameter: nameof(guest.Id)),
