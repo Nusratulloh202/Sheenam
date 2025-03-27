@@ -16,7 +16,14 @@ namespace Sheenam.Api.Services.Foundations.Guests
         {
             if (guest is null)
             {
-                throw new NullGuestExceptions();
+                throw new NullGuestException();
+            }
+        }
+        private static void ValidateStorageGuestExist(Guest maybeGuest, Guid guestId)
+        {
+            if (maybeGuest is null)
+            {
+                throw new NotFoundGuestException(guestId);
             }
         }
         private void ValidateGuestOnAdd(Guest guest)
@@ -80,7 +87,17 @@ namespace Sheenam.Api.Services.Foundations.Guests
 
         private static void ValidateAgainstStorageGuestOnModify(Guest guest, Guest storageGuest)
         {
-            ValidateStorageGuest(storageGuest, guest.Id);
+
+            ValidateStorageGuestExist(storageGuest, guest.Id);
+
+            Validate(
+                (Rule: IsInvalid(guest.Id), Parameter: nameof(Guest.Id)),
+                (Rule: IsInvalid(guest.FirstName), Parameter: nameof(Guest.FirstName)),
+                (Rule: IsInvalid(guest.LastName), Parameter: nameof(Guest.LastName)),
+                (Rule: IsInvalid(guest.DateOffBirth), Parameter: nameof(Guest.DateOffBirth)),
+                (Rule: IsInvalid(guest.Email), Parameter: nameof(Guest.Email)),
+                (Rule: IsInvalid(guest.PhoneNumber), Parameter: nameof(Guest.PhoneNumber)),
+                (Rule: IsInvalid(guest.Address), Parameter: nameof(Guest.Address)));
         }
 
         private static void Validate(params (dynamic Rule, string Parametr)[] validations)
