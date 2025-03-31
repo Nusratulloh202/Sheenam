@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 using Sheenam.Api.Brokers.Logings;
 using Sheenam.Api.Brokers.Storages;
 using Sheenam.Api.Models.Foundations.Guests;
@@ -52,6 +53,18 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 ValidateAgainstStorageGuestOnModify(guest, maybeGuest);
 
                 return await this.storageBroker.UpdateGuestAsync(guest);
+            });
+        //Delete (Remove)
+        public ValueTask<Guest> RemoveGuestByIdAsync(Guid guestId) =>
+            TryCatch(async () =>
+            {
+                ValidateGuestId(guestId);
+                Guest maybeGuest =
+                    await this.storageBroker.SelectGuestByIdAsync(guestId);
+                ValidateStorageGuest(maybeGuest, guestId);
+
+
+                return  maybeGuest;
             });
     }
 }
