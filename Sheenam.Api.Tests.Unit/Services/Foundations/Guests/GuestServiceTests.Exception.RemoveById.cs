@@ -3,6 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using FluentAssertions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Sheenam.Api.Models.Foundations.Guests;
@@ -54,5 +55,45 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             this.loggingBrokerMock.VerifyNoOtherCalls();
 
         }
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnRemoveWhenSqlExceptionOccursAndLogItAsync()
+        {
+            //given
+            Guid someGuestId = Guid.NewGuid();
+            SqlException sqlException = GetSqlException();
+
+            var failedGuestStorageException =
+                new FailedGuestStorageException(sqlException);
+
+            var excpectedGuestDependencyException =
+                new GuestDependencyException(failedGuestStorageException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectGuestByIdAsync(It.IsAny<Guid>()))
+                .ThrowsAsync(sqlException);
+
+            //when
+            ValueTask<Guest> removeGuestTask =
+                this.guestService.RemoveGuestByIdAsync(someGuestId);
+
+            GuestDependencyException actualGuestDependencyException =
+                await Assert.ThrowsAsync<GuestDependencyException>(removeGuestTask.AsTask);
+
+            //then
+            actualGuestDependencyException.Should()
+                .BeEquivalentTo(excpectedGuestDependencyException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectGuestByIdAsync(It.IsAny<Guid>()), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogCritical(It.Is(SameExceptionAs(
+                    excpectedGuestDependencyException))),
+                    Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
     }
 }
