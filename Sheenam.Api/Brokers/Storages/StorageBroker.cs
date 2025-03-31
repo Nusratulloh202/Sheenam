@@ -15,11 +15,13 @@ namespace Sheenam.Api.Brokers.Storages
             this.configuration = configuration;
             this.Database.Migrate();
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = this.configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
         }
+
         public override void Dispose() { }
     }
 }
