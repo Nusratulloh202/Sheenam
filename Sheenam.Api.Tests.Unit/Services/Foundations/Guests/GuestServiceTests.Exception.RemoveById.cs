@@ -21,10 +21,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             var dbUpdateConcurrencyException =
                 new DbUpdateConcurrencyException();
 
-            var lockedGuestException = 
+            var lockedGuestException =
                 new LockedGuestException(dbUpdateConcurrencyException);
 
-            var expectedGuestDependencyValidationException = 
+            var expectedGuestDependencyValidationException =
                 new GuestDependencyValidationException(lockedGuestException);
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectGuestByIdAsync(It.IsAny<Guid>()))
@@ -103,9 +103,9 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 
             var serviceException = new Exception();
 
-            var failedGuestServiceException = 
+            var failedGuestServiceException =
                 new FailedGuestServiceException(serviceException);
-            
+
             var expectedGuestServiceAllException =
                 new GuestServiceAllException(failedGuestServiceException);
 
@@ -126,7 +126,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                 .BeEquivalentTo(expectedGuestServiceAllException);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.SelectGuestByIdAsync(It.IsAny<Guid>()), 
+                broker.SelectGuestByIdAsync(It.IsAny<Guid>()),
                 Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>

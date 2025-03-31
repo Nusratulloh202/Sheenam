@@ -5,7 +5,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.OpenApi.Models;
 using Sheenam.Api.Brokers.Logings;
 using Sheenam.Api.Brokers.Storages;
 using Sheenam.Api.Models.Foundations.Guests;
@@ -64,7 +63,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 ValidateStorageGuest(maybeGuest, guestId);
 
 
-                return  maybeGuest;
+                return maybeGuest;
             });
     }
 }
