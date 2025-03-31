@@ -4,6 +4,7 @@
 //==================================================
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -48,6 +49,14 @@ namespace Sheenam.Api.Brokers.Storages
         {
             var broker = new StorageBroker(this.configuration);
             broker.Entry(guest).State = EntityState.Modified;
+            await broker.SaveChangesAsync();
+
+            return guest;
+        }
+        public async ValueTask<Guest>DeleteGuestAsync(Guest guest)
+        {
+            var broker = new StorageBroker(configuration);
+            broker.Entry(guest).State = EntityState.Deleted;
             await broker.SaveChangesAsync();
 
             return guest;
