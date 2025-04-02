@@ -20,7 +20,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guest randomGuest = CreateRandomGuest();
             Guest storageGuest = randomGuest;
             Guest expectedInputGuest = storageGuest;
-            Guest deletedGuest = expectedInputGuest;
+            Guest deletedGuest = expectedInputGuest; 
             Guest expectedGuest = deletedGuest.DeepClone();
 
             this.storageBrokerMock.Setup(broker=>
@@ -32,7 +32,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
                     .ReturnsAsync(deletedGuest);
             //when
             Guest actualGuest =
-                await this.guestService.RetrieveGuestByIdAsync(inputGuestId);
+                await this.guestService.RemoveGuestByIdAsync(inputGuestId);
 
             //then
             actualGuest.Should().BeEquivalentTo(expectedGuest);

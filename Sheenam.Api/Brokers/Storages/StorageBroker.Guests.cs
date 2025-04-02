@@ -54,6 +54,7 @@ namespace Sheenam.Api.Brokers.Storages
         }
         public async ValueTask<Guest> DeleteGuestAsync(Guest guest)
         {
+
             var broker = new StorageBroker(configuration);
             broker.Entry(guest).State = EntityState.Deleted;
             await broker.SaveChangesAsync();
