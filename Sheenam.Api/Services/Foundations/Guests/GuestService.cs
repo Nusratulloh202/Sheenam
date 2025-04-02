@@ -63,7 +63,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
                 ValidateStorageGuest(maybeGuest, guestId);
 
 
-                return maybeGuest;
+                return await this.storageBroker.DeleteGuestAsync(maybeGuest);
             });
     }
 }
