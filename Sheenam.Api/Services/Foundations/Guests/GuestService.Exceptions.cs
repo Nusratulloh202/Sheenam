@@ -26,18 +26,18 @@ namespace Sheenam.Api.Services.Foundations.Guests
             {
                 return await returningGuestFunction();
             }
-            catch (NullGuestException nullGuestException)
-            {
-                throw CreateAndLogValidationException(nullGuestException);
-            }
-            catch (InvalidGuestException invalidGuestException)
-            {
-                throw CreateAndLogValidationException(invalidGuestException);
-            }
-            catch (NotFoundGuestException notFoundGuestException)
-            {
-                throw CreateAndLogValidationException(notFoundGuestException);
-            }
+            //catch (NullGuestException nullGuestException)
+            //{
+            //    throw CreateAndLogValidationException(nullGuestException);
+            //}
+            //catch (InvalidGuestException invalidGuestException)
+            //{
+            //    throw CreateAndLogValidationException(invalidGuestException);
+            //}
+            //catch (NotFoundGuestException notFoundGuestException)
+            //{
+            //    throw CreateAndLogValidationException(notFoundGuestException);
+            //}
             catch (SqlException sqlException)
             {
                 var failedGuestStorageException =
@@ -60,11 +60,11 @@ namespace Sheenam.Api.Services.Foundations.Guests
 
                 throw CreateAndLogErrorDependencyException(failedGuestStorageException);
             }
-            catch (Exception exception)
-            {
-                var failedGuestException = new FailedGuestServiceException(exception);
-                throw CreateAndLogServiceAllException(failedGuestException);
-            }
+            //catch (Exception exception)
+            //{
+            //    var failedGuestException = new FailedGuestServiceException(exception);
+            //    throw CreateAndLogServiceAllException(failedGuestException);
+            //}
         }
 
         private IQueryable<Guest> TryCatch(ReturningGuestsFunction returningGuestsFunction)
