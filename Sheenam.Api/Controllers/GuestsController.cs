@@ -160,7 +160,7 @@ namespace Sheenam.Api.Controllers
         //    {
         //        return InternalServerError(guestServiceAllException.InnerException);
         //    }
-        }
+        //}
     }
 
 }
