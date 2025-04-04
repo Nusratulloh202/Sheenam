@@ -125,42 +125,42 @@ namespace Sheenam.Api.Controllers
             }
         }
 
-        //[HttpDelete]
-        //public async Task<ActionResult<Guest>> DeleteGuestByIdAsync(Guid guestId)
-        //{
-        //    try
-        //    {
-        //        Guest deletedGuest = await this.guestService.RemoveGuestByIdAsync(guestId);
-        //        return Ok(deletedGuest);
-        //    }
-        //    catch (GuestValidationException guestValidationException)
-        //        when (guestValidationException.InnerException is InvalidGuestException)
-        //    {
-        //        return BadRequest(guestValidationException.InnerException);
-        //    }
-        //    catch (GuestValidationException guestValidationException)
-        //        when (guestValidationException.InnerException is NotFoundGuestException)
-        //    {
-        //        return NotFound(guestValidationException.InnerException);
-        //    }
-        //    catch (GuestDependencyValidationException dependencyValidationException)
-        //        when (dependencyValidationException.InnerException is LockedGuestException)
-        //    {
-        //        return Locked(dependencyValidationException.InnerException);
-        //    }
-        //    catch (GuestDependencyValidationException guestDependencyValidationException)
-        //    {
-        //        return BadRequest(guestDependencyValidationException.InnerException);
-        //    }
-        //    catch (GuestDependencyException guestDependencyException)
-        //    {
-        //        return InternalServerError(guestDependencyException.InnerException);
-        //    }
-        //    catch (GuestServiceAllException guestServiceAllException)
-        //    {
-        //        return InternalServerError(guestServiceAllException.InnerException);
-        //    }
-        //}
+        [HttpDelete]
+        public async Task<ActionResult<Guest>> DeleteGuestByIdAsync(Guid guestId)
+        {
+            try
+            {
+                Guest deletedGuest = await this.guestService.RemoveGuestByIdAsync(guestId);
+                return Ok(deletedGuest);
+            }
+            catch (GuestValidationException guestValidationException)
+                when (guestValidationException.InnerException is InvalidGuestException)
+            {
+                return BadRequest(guestValidationException.InnerException);
+            }
+            catch (GuestValidationException guestValidationException)
+                when (guestValidationException.InnerException is NotFoundGuestException)
+            {
+                return NotFound(guestValidationException.InnerException);
+            }
+            catch (GuestDependencyValidationException dependencyValidationException)
+                when (dependencyValidationException.InnerException is LockedGuestException)
+            {
+                return Locked(dependencyValidationException.InnerException);
+            }
+            catch (GuestDependencyValidationException guestDependencyValidationException)
+            {
+                return BadRequest(guestDependencyValidationException.InnerException);
+            }
+            catch (GuestDependencyException guestDependencyException)
+            {
+                return InternalServerError(guestDependencyException.InnerException);
+            }
+            catch (GuestServiceAllException guestServiceAllException)
+            {
+                return InternalServerError(guestServiceAllException.InnerException);
+            }
+        }
     }
 
 }
