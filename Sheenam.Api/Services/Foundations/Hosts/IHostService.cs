@@ -2,13 +2,10 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-
-namespace Sheenam.Api.Brokers.Storages
+namespace Sheenam.Api.Services.Foundations.Hosts
 {
-    public partial interface IStorageBroker
+    public interface IHostService
     {
-        ValueTask<Host> InsertHostAsync(Host host);
+
     }
 }

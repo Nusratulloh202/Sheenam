@@ -25,7 +25,7 @@ namespace Sheenam.Api.Brokers.Storages
             await broker.SaveChangesAsync();
 
             return guestEntityEntry.Entity;
-        }
+        }   
 
         private IQueryable<T> SelectAll<T>() where T : class
         {

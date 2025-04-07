@@ -13,7 +13,7 @@ namespace Sheenam.Api.Brokers.Storages
         public StorageBroker(IConfiguration configuration)
         {
             this.configuration = configuration;
-            //this.Database.Migrate();
+            this.Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
