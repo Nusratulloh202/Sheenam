@@ -4,8 +4,8 @@
 //==================================================
 
 using Moq;
+using Sheenam.Api.Models.Foundations.Enums;
 using Sheenam.Api.Models.Foundations.Guests;
-using Sheenam.Api.Models.Foundations.Guests.Enums;
 using Sheenam.Api.Models.Foundations.Guests.Exceptions;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests

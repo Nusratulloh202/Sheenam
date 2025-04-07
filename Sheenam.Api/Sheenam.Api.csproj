@@ -20,8 +20,4 @@
     <PackageReference Include="Xeption" Version="2.8.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Foundations\Hosts\Enum\" />
-  </ItemGroup>
-
 </Project>

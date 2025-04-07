@@ -3,7 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System;
-using Sheenam.Api.Models.Foundations.Guests.Enums;
+using Sheenam.Api.Models.Foundations.Enums;
 
 namespace Sheenam.Api.Models.Foundations.Guests
 {
