@@ -7,10 +7,11 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions
 {
-    public class NotFoundHostException:Xeption
+    public class FailedHostStorageException:Xeption
     {
-        public NotFoundHostException(Guid hostId)
-            :base(message: $"Couldn't find host with id {hostId}.")
+        public FailedHostStorageException(Exception innerException)
+            :base("Failed host storage error occurred, contact support", 
+                 innerException)
         {}
     }
 }

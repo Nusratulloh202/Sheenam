@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions
 {
-    public class NotFoundHostException:Xeption
+    public class FailedHostServiceException:Xeption
     {
-        public NotFoundHostException(Guid hostId)
-            :base(message: $"Couldn't find host with id {hostId}.")
+        public FailedHostServiceException(Exception innerException)
+               :base("Failed host service error occurred, contact support.", innerException)
         {}
     }
 }
