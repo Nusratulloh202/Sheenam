@@ -5,17 +5,17 @@
 using System;
 using Sheenam.Api.Models.Foundations.Enums;
 
-namespace Sheenam.Api.Models.Foundations.Guests
+namespace Sheenam.Api.Models.Foundations.Hosts
 {
-    public class Guest
+    public class Host
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTimeOffset DateOffBirth { get; set; }
+        public DateTimeOffset DateOfBirth { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string Address { get; set; }
-        public GenderType Gender { get; set; }
+        public GenderType HostGender { get; set; }
+
     }
 }
