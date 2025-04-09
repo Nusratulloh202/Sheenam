@@ -11,7 +11,7 @@ using Tynamix.ObjectFiller;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 {
-    internal partial class HostServiceTests
+    public partial class HostServiceTests
     {
         private readonly Mock<IStorageBroker> storageBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;

@@ -9,7 +9,7 @@ using Sheenam.Api.Models.Foundations.Hosts;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 {
-    internal partial class HostServiceTests
+    public partial class HostServiceTests
     {
         [Fact]
         public async Task ShouldAddHostAsync()
