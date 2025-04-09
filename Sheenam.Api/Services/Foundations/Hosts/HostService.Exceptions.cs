@@ -3,9 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -22,11 +20,15 @@ namespace Sheenam.Api.Services.Foundations.Hosts
         {
             try
             {
-                return  await returningHostFunction();
+                return await returningHostFunction();
             }
             catch (NullHostException nullHostException)
             {
                 throw CreateAndLogValidationException(nullHostException);
+            }
+            catch (InvalidHostException invalidHostException)
+            {
+                throw CreateAndLogValidationException(invalidHostException);
             }
            
         }

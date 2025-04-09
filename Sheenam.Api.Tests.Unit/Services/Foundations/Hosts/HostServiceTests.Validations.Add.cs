@@ -23,7 +23,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 new HostValidationException(nullHostException);
 
             //when
-            ValueTask<Host> taskAddHost = 
+            ValueTask<Host> taskAddHost =
                 this.hostService.AddHostAsync(nullHost);
 
             HostValidationException actualHostValidationException =
@@ -49,14 +49,17 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public async Task ShouldThrowValidationExceptionOnAddIfHostIsInvalidAndLogItAsync( string invalidText)
+        public async Task ShouldThrowValidationExceptionOnAddIfHostIsInvalidAndLogItAsync(string invalidText)
         {
             //given
             var invalidHost = new Host
             {
                 FirstName = invalidText
             };
-            var invalidHostException= new InvalidHostException();
+
+            var invalidHostException =
+                new InvalidHostException();
+
             invalidHostException.AddData(
                 key: nameof(Host.Id),
                 values: "Id is required");
@@ -75,6 +78,9 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             invalidHostException.AddData(
                 key: nameof(Host.PhoneNumber),
                 values: "Text is required");
+            //invalidHostException.AddData(
+              //key: nameof(Host.HostGender),
+              //  values: "Value is invalid");
             var expectedValidationException =
                 new HostValidationException(invalidHostException);
 
