@@ -3,6 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 
+using FluentAssertions;
 using Moq;
 using Sheenam.Api.Models.Foundations.Enums;
 using Sheenam.Api.Models.Foundations.Guests;
@@ -82,10 +83,13 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             //when
             ValueTask<Guest> addGuestTask =
                 this.guestService.AddGuestAsync(invalidGuest);
+            GuestValidationException actualGuestValidationException =
+                await Assert.ThrowsAsync<GuestValidationException>(() =>
+                    addGuestTask.AsTask());
 
             //then
-            await Assert.ThrowsAsync<GuestValidationException>(() =>
-                addGuestTask.AsTask());
+            actualGuestValidationException.Should()
+                .BeEquivalentTo(expectedGuestValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(expectedGuestValidationException))),
