@@ -40,6 +40,20 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
         private static Host CreateRandomHost() =>
-            CreateHostFiller(date: GetRandomDateTimeOffSet()).Create();     
+            CreateHostFiller(date: GetRandomDateTimeOffSet()).Create();
+
+        private static int GetRandomNumber() =>
+            new IntRange(min: 2, max: 10).GetValue();
+
+        private static T GetInvalidEnum<T>()
+        {
+            int randomNumber = GetRandomNumber();
+            while(Enum.IsDefined(typeof(T), randomNumber) is true)
+            {
+                randomNumber = GetRandomNumber();
+            }
+            return (T)(object)randomNumber;
+        }
+
     }
 }
