@@ -4,6 +4,7 @@
 //==================================================
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -30,11 +31,13 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 throw CreateAndLogValidationException(invalidHostException);
             }
-            //catch(FailedHostStorageException  failedHostStorageException)
-            //{
-            //    throw CreateAndLogCriticalDependencyException(failedHostStorageException);
-            //}
-           
+            catch (SqlException sqlException)
+            {
+                FailedHostStorageException failedHostStorageException =
+                    new FailedHostStorageException(sqlException);
+                throw CreateAndLogCriticalDependencyException(failedHostStorageException);
+            }
+
         }
         private  HostValidationException CreateAndLogValidationException(Xeption exception)
         {
