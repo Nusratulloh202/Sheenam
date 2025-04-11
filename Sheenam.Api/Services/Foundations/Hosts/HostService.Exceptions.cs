@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
+using Sheenam.Api.Models.Foundations.Guests;
+using Sheenam.Api.Models.Foundations.Guests.Exceptions;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -53,6 +55,20 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             }
 
         }
+
+        private IQueryable<Host> TryCatch(ReturningHostsFunction returningHostsFunction)
+        {
+            try
+            {
+                return returningHostsFunction();
+            }
+            catch (Exception exception)
+            {
+                var failedHostServiceException =
+                new FailedHostServiceException(exception);
+                throw CreateAndLogDependencyValidationException(failedHostServiceException);
+            }
+        }
         private HostValidationException CreateAndLogValidationException(Xeption exception)
         {
             var hostValidationException =
@@ -76,5 +92,6 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             this.loggingBroker.LogError(hostDependencyValidationException);
             return hostDependencyValidationException;
         }
+
     }
 }

@@ -25,7 +25,7 @@ namespace Sheenam.Api.Brokers.Storages
             return hostEntityEntry.Entity;
         }
 
-        private IQueryable<T> SelectAllHost<T>() where T : class
+        private IQueryable<T> SelectAllHosts<T>() where T : class
         {
             var broker = new StorageBroker(this.configuration);
 
