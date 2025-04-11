@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions
 {
-    public class AlreadyExistHostException:Xeption
+    public class AlreadyExistHostException : Xeption
     {
         public AlreadyExistHostException(Exception exception)
-            :base(message:"Host with the same id already exists.", exception)
-        {}
+            : base(message: "Host with the same id already exists.", exception)
+        { }
     }
 }

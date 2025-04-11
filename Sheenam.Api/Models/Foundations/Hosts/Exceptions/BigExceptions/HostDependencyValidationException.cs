@@ -6,10 +6,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions
 {
-    public class HostDependencyValidationException:Xeption
+    public class HostDependencyValidationException : Xeption
     {
         public HostDependencyValidationException(Xeption innerException)
-            :base(message:"Host dependency validation error occured.", innerException)
-        {}
+            : base(message: "Host dependency validation error occured.", innerException)
+        { }
     }
 }

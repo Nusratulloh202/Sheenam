@@ -20,10 +20,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             Guest randomGuest = CreateRandomGuest();
             Guest storageGuest = randomGuest;
             Guest expectedInputGuest = storageGuest;
-            Guest deletedGuest = expectedInputGuest; 
+            Guest deletedGuest = expectedInputGuest;
             Guest expectedGuest = deletedGuest.DeepClone();
 
-            this.storageBrokerMock.Setup(broker=>
+            this.storageBrokerMock.Setup(broker =>
                 broker.SelectGuestByIdAsync(inputGuestId))
                     .ReturnsAsync(storageGuest);
 

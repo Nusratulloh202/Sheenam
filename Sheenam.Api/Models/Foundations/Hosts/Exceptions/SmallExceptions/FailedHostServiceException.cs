@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions
 {
-    public class FailedHostServiceException:Xeption
+    public class FailedHostServiceException : Xeption
     {
         public FailedHostServiceException(Exception innerException)
-               :base("Failed host service error occurred, contact support.", innerException)
-        {}
+               : base("Failed host service error occurred, contact support.", innerException)
+        { }
     }
 }

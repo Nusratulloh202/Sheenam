@@ -2,9 +2,9 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using EFxceptions.Models.Exceptions;
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
-using EFxceptions.Models.Exceptions;
 using Moq;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
@@ -12,7 +12,7 @@ using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 {
-    public  partial class HostServiceTests
+    public partial class HostServiceTests
     {
         private object DublicateKeyException;
 

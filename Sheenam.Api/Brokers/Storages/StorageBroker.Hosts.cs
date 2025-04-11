@@ -22,7 +22,7 @@ namespace Sheenam.Api.Brokers.Storages
             await broker.SaveChangesAsync();
             return hostEntityEntry.Entity;
         }
-    
+
 
 
     }
