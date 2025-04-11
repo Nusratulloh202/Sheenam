@@ -6,10 +6,10 @@ using System;
 using Xeptions;
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions
 {
-    public class LockedHostException:Xeption
+    public class LockedHostException : Xeption
     {
         public LockedHostException(Exception innerException)
-            :base(message:"Host is locked, try again.", innerException)
-        {}
+            : base(message: "Host is locked, try again.", innerException)
+        { }
     }
 }

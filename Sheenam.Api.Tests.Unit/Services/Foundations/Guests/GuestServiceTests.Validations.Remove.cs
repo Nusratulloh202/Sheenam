@@ -2,10 +2,10 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
-using Moq;
-using Sheenam.Api.Models.Foundations.Guests.Exceptions;
-using Sheenam.Api.Models.Foundations.Guests;
 using FluentAssertions;
+using Moq;
+using Sheenam.Api.Models.Foundations.Guests;
+using Sheenam.Api.Models.Foundations.Guests.Exceptions;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 {
@@ -58,7 +58,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
 
             var expectedGuestValidationException =
                 new GuestValidationException(notFoundGuestException);
-            
+
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectGuestByIdAsync(inputGuid))
                     .ReturnsAsync(noGuest);

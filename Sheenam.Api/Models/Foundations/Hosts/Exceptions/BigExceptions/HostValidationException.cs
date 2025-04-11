@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions
 {
-    public class HostValidationException:Xeption
+    public class HostValidationException : Xeption
     {
         public HostValidationException(Exception innerException)
-            :base(message: "Host validation error occurred, fix the errors and try again", innerException)
-        {}
+            : base(message: "Host validation error occurred, fix the errors and try again", innerException)
+        { }
     }
 }

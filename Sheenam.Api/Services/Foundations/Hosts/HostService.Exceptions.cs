@@ -53,12 +53,12 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             }
 
         }
-        private  HostValidationException CreateAndLogValidationException(Xeption exception)
+        private HostValidationException CreateAndLogValidationException(Xeption exception)
         {
             var hostValidationException =
                 new HostValidationException(exception);
 
-           this.loggingBroker.LogError(hostValidationException);
+            this.loggingBroker.LogError(hostValidationException);
 
             return hostValidationException;
         }

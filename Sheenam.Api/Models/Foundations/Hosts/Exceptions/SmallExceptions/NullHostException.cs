@@ -5,10 +5,10 @@
 using Xeptions;
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions
 {
-    public class NullHostException:Xeption
+    public class NullHostException : Xeption
     {
         public NullHostException()
-            :base(message:"Null host. Please try again.")
-        {}
+            : base(message: "Null host. Please try again.")
+        { }
     }
 }

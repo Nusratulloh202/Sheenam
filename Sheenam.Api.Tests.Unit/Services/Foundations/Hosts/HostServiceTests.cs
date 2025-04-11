@@ -47,7 +47,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
-        private static SqlException GetSqlException () =>
+        private static SqlException GetSqlException() =>
             (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
         private static string GetRandomString() =>
@@ -56,7 +56,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
         private static T GetInvalidEnum<T>()
         {
             int randomNumber = GetRandomNumber();
-            while(Enum.IsDefined(typeof(T), randomNumber) is true)
+            while (Enum.IsDefined(typeof(T), randomNumber) is true)
             {
                 randomNumber = GetRandomNumber();
             }

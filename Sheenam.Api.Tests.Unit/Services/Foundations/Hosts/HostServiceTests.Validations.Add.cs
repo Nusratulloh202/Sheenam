@@ -5,8 +5,6 @@
 using FluentAssertions;
 using Moq;
 using Sheenam.Api.Models.Foundations.Enums;
-using Sheenam.Api.Models.Foundations.Guests.Exceptions;
-using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -82,8 +80,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 key: nameof(Host.PhoneNumber),
                 values: "Text is required");
             //invalidHostException.AddData(
-              //key: nameof(Host.HostGender),
-              //  values: "Value is invalid");
+            //key: nameof(Host.HostGender),
+            //  values: "Value is invalid");
             var expectedValidationException =
                 new HostValidationException(invalidHostException);
 
@@ -97,7 +95,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             actualHostValidationException.Should()
                 .BeEquivalentTo(expectedValidationException);
 
-            this.loggingBrokerMock.Verify(broker=>
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(expectedValidationException))),
                     Times.Once);
 

@@ -3,10 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System;
-using System.Data;
 using Sheenam.Api.Models.Foundations.Enums;
-using Sheenam.Api.Models.Foundations.Guests;
-using Sheenam.Api.Models.Foundations.Guests.Exceptions;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
 
@@ -21,7 +18,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 throw new NullHostException();
             }
         }
-        private void    ValidateHost(Host host)
+        private void ValidateHost(Host host)
         {
             ValidateHostNotNull(host);
 
@@ -60,10 +57,10 @@ namespace Sheenam.Api.Services.Foundations.Hosts
            Validate((Rule: IsInvalid(hostId), Parameter: nameof(Host.Id)));
 
 
-        private static void  Validate(params(dynamic Rule, string Paramet)[] validations)
+        private static void Validate(params (dynamic Rule, string Paramet)[] validations)
         {
             var invalidHostExseption = new InvalidHostException();
-            foreach((dynamic rule, string parametr) in validations)
+            foreach ((dynamic rule, string parametr) in validations)
             {
                 if (rule.Condition)
                 {

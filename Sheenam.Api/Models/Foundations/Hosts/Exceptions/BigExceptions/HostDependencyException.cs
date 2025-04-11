@@ -6,10 +6,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions
 {
-    public class HostDependencyException:Xeption
+    public class HostDependencyException : Xeption
     {
         public HostDependencyException(Xeption innerException)
-            :base(message:"Host dependecy error occured, contact support. ", innerException)
-        {}
+            : base(message: "Host dependecy error occured, contact support. ", innerException)
+        { }
     }
 }

@@ -7,11 +7,11 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions
 {
-    public class FailedHostStorageException:Xeption
+    public class FailedHostStorageException : Xeption
     {
         public FailedHostStorageException(Exception innerException)
-            :base("Failed host storage error occurred, contact support", 
+            : base("Failed host storage error occurred, contact support",
                  innerException)
-        {}
+        { }
     }
 }

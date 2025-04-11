@@ -20,7 +20,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             this.storageBroker = storageBroker;
             this.loggingBroker = loggingBroker;
         }
-        public async ValueTask<Host> AddHostAsync(Host host)=>
+        public async ValueTask<Host> AddHostAsync(Host host) =>
             await TryCatch(async () =>
             {
                 ValidateHost(host);
