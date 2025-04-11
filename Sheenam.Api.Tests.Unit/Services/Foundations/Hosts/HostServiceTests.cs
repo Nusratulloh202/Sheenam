@@ -3,6 +3,8 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
+using Microsoft.Data.SqlClient;
 using Moq;
 using Sheenam.Api.Brokers.Logings;
 using Sheenam.Api.Brokers.Storages;
@@ -44,6 +46,12 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
+
+        private static SqlException GetSqlException () =>
+            (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
+
+        private static string GetRandomString() =>
+            new MnemonicString().GetValue();
 
         private static T GetInvalidEnum<T>()
         {
