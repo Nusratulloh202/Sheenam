@@ -31,8 +31,8 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 (Rule: IsInvalid(host.LastName), Parameter: nameof(host.LastName)),
                 (Rule: IsInvalid(host.Email), Parameter: nameof(host.Email)),
                 (Rule: IsInvalid(host.PhoneNumber), Parameter: nameof(host.PhoneNumber)),
-                (Rule: IsInvalid(host.DateOfBirth), Parameter: nameof(host.DateOfBirth)));
-                //(Rule: IsInvalid(host.HostGender), Parameter: nameof(host.HostGender)));
+                (Rule: IsInvalid(host.DateOfBirth), Parameter: nameof(host.DateOfBirth)),
+            (Rule: IsInvalid(host.HostGender), Parameter: nameof(host.HostGender)));
         }
 
         private static dynamic IsInvalid(Guid id) => new
@@ -51,11 +51,11 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             Condition = date == default,
             Message = "Date is required"
         };
-        //private static dynamic IsInvalid(GenderType gender) => new
-        //{
-        //    Condition = Enum.IsDefined(gender) is false,
-        //    Message = "Value is invalid"
-        //};
+        private static dynamic IsInvalid(GenderType gender) => new
+        {
+            Condition = Enum.IsDefined(gender) is false,
+            Message = "Value is invalid"
+        };
         private static void ValidateHostId(Guid hostId) =>
            Validate((Rule: IsInvalid(hostId), Parameter: nameof(Host.Id)));
 
