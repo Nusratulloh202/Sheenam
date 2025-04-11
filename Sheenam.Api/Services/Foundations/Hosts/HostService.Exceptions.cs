@@ -2,8 +2,11 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EFxceptions.Models.Exceptions;
+using Microsoft.Data.SqlClient;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -30,7 +33,25 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 throw CreateAndLogValidationException(invalidHostException);
             }
-           
+            catch (SqlException sqlException)
+            {
+                FailedHostStorageException failedHostStorageException =
+                    new FailedHostStorageException(sqlException);
+                throw CreateAndLogCriticalDependencyException(failedHostStorageException);
+            }
+            catch (DuplicateKeyException dublicateKeyException)
+            {
+                AlreadyExistHostException alreadyExistHostException =
+                    new AlreadyExistHostException(dublicateKeyException);
+                throw CreateAndLogDependencyValidationException(alreadyExistHostException);
+            }
+            catch (Exception exception)
+            {
+                var failedHostServiceException =
+                    new FailedHostServiceException(exception);
+                throw CreateAndLogDependencyValidationException(failedHostServiceException);
+            }
+
         }
         private  HostValidationException CreateAndLogValidationException(Xeption exception)
         {
@@ -40,6 +61,20 @@ namespace Sheenam.Api.Services.Foundations.Hosts
            this.loggingBroker.LogError(hostValidationException);
 
             return hostValidationException;
+        }
+        private HostDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var hostDependencyException =
+                new HostDependencyException(exception);
+            this.loggingBroker.LogCritical(hostDependencyException);
+            return hostDependencyException;
+        }
+        private HostDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var hostDependencyValidationException =
+                new HostDependencyValidationException(exception);
+            this.loggingBroker.LogError(hostDependencyValidationException);
+            return hostDependencyValidationException;
         }
     }
 }
