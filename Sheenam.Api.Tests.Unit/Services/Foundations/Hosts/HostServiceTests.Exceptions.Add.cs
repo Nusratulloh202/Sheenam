@@ -87,5 +87,38 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        //ServiceError
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfServiceErrorOccursAndLogItAsync()
+        {
+            //given
+            Host someHost = CreateRandomHost();
+            string message = GetRandomString();
+            var serviceException = new Exception(message);
+            var failedHostStorageException =
+                new FailedHostStorageException(serviceException);
+            var expectedHostDependencyValidationException =
+                new HostDependencyValidationException(failedHostStorageException);
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertHostAsync(someHost))
+                .ThrowsAsync(serviceException);
+            //when
+            ValueTask<Host> addHostTask =
+                this.hostService.AddHostAsync(someHost);
+            var actualHostDependencyValidationException =
+                await Assert.ThrowsAsync<HostDependencyValidationException>(() =>
+                addHostTask.AsTask());
+            //then
+            actualHostDependencyValidationException.Should().BeEquivalentTo(expectedHostDependencyValidationException);
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertHostAsync(someHost),
+                Times.Once());
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedHostDependencyValidationException))),
+                Times.Once());
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
