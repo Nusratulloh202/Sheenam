@@ -96,10 +96,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             Host someHost = CreateRandomHost();
             string message = GetRandomString();
             var serviceException = new Exception(message);
-            var failedHostStorageException =
-                new FailedHostStorageException(serviceException);
+            var failedHostServiceException =
+                new FailedHostServiceException(serviceException);
             var expectedHostDependencyValidationException =
-                new HostDependencyValidationException(failedHostStorageException);
+                new HostDependencyValidationException(failedHostServiceException);
             this.storageBrokerMock.Setup(broker =>
                 broker.InsertHostAsync(someHost))
                 .ThrowsAsync(serviceException);

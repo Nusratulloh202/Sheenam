@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
@@ -43,6 +44,12 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 AlreadyExistHostException alreadyExistHostException =
                     new AlreadyExistHostException(dublicateKeyException);
                 throw CreateAndLogDependencyValidationException(alreadyExistHostException);
+            }
+            catch (Exception exception)
+            {
+                var failedHostServiceException =
+                    new FailedHostServiceException(exception);
+                throw CreateAndLogDependencyValidationException(failedHostServiceException);
             }
 
         }
