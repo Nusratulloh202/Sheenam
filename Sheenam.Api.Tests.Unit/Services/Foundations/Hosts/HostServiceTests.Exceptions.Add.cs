@@ -51,41 +51,41 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
         // Dublicat key Exception uchun test
 
-        //[Fact]
-        //public async  Task ShouldThrowDependencyValidationOnAddIfDublicateKeyErrorOccursAndLogItAsync()
-        //{
-        //    //given
-        //    Host someHost= CreateRandomHost();
-        //    string message= GetRandomString();
-        //    var dublicateKeyException = new DuplicateKeyException(message);
+        [Fact]
+        public async Task ShouldThrowDependencyValidationOnAddIfDublicateKeyErrorOccursAndLogItAsync()
+        {
+            //given
+            Host someHost = CreateRandomHost();
+            string message = GetRandomString();
+            var dublicateKeyException = new DuplicateKeyException(message);
 
-        //    var alreadyExistHostException = 
-        //        new AlreadyExistHostException(dublicateKeyException);
+            var alreadyExistHostException =
+                new AlreadyExistHostException(dublicateKeyException);
 
-        //    var expectedHostDependencyValidationException =
-        //        new HostDependencyValidationException(alreadyExistHostException);
-        //    this.storageBrokerMock.Setup(broker=>
-        //        broker.InsertHostAsync(someHost))
-        //        .ThrowsAsync(dublicateKeyException);
-        //    //when
-        //    ValueTask<Host> addHostTask =
-        //        this.hostService.AddHostAsync(someHost);
-        //    var actualHostDependencyyValidationException =
-        //        await Assert.ThrowsAsync<HostDependencyValidationException>(() =>
-        //        addHostTask.AsTask());
-        //    //then
-        //    actualHostDependencyyValidationException.Should().BeEquivalentTo(expectedHostDependencyValidationException);
+            var expectedHostDependencyValidationException =
+                new HostDependencyValidationException(alreadyExistHostException);
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertHostAsync(someHost))
+                .ThrowsAsync(dublicateKeyException);
+            //when
+            ValueTask<Host> addHostTask =
+                this.hostService.AddHostAsync(someHost);
+            var actualHostDependencyyValidationException =
+                await Assert.ThrowsAsync<HostDependencyValidationException>(() =>
+                addHostTask.AsTask());
+            //then
+            actualHostDependencyyValidationException.Should().BeEquivalentTo(expectedHostDependencyValidationException);
 
-        //    this.storageBrokerMock.Verify(broker =>
-        //        broker.InsertHostAsync(someHost),
-        //        Times.Once());
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertHostAsync(someHost),
+                Times.Once());
 
-        //    this.loggingBrokerMock.Verify(broker =>
-        //        broker.LogError(It.Is(SameExceptionAs(expectedHostDependencyValidationException))),
-        //        Times.Once());
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedHostDependencyValidationException))),
+                Times.Once());
 
-        //    this.storageBrokerMock.VerifyNoOtherCalls();
-        //    this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
