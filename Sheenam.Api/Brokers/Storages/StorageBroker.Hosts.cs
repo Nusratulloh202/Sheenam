@@ -33,7 +33,7 @@ namespace Sheenam.Api.Brokers.Storages
         {
             var hosts = SelectAllClassHost<Host>();
             return hosts;
-        }
+        }   
 
     }
 }

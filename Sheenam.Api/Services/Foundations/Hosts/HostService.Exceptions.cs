@@ -51,7 +51,19 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                     new FailedHostServiceException(exception);
                 throw CreateAndLogDependencyValidationException(failedHostServiceException);
             }
-
+        }
+        private IQueryable<Host> TryCatch(ReturningHostsFunction returningHostsFunction)
+        {
+            try
+            {
+                return returningHostsFunction();
+            }
+           catch (Exception exception)
+            {
+                var failedHostServiceException =
+                    new FailedHostServiceException(exception);
+                throw CreateAndLogDependencyValidationException(failedHostServiceException);
+            }
         }
         private HostValidationException CreateAndLogValidationException(Xeption exception)
         {
