@@ -58,7 +58,14 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 return returningHostsFunction();
             }
-           catch (Exception exception)
+            catch (SqlException sqlException)
+            {
+                var failedHostStorageException = 
+                    new FailedHostStorageException(sqlException);
+                throw CreateAndLogCriticalDependencyException(failedHostStorageException);
+            }
+
+            catch (Exception exception)
             {
                 var failedHostServiceException =
                     new FailedHostServiceException(exception);
