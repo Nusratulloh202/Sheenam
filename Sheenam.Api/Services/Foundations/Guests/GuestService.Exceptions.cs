@@ -79,11 +79,11 @@ namespace Sheenam.Api.Services.Foundations.Guests
                     new FailedGuestStorageException(sqlException);
                 throw CreateAndLogDependencyException(failedGuestStorageException);
             }
-            //catch (Exception exception)
-            //{
-            //    var failedGuestException = new FailedGuestServiceException(exception);
-            //    throw CreateAndLogServiceAllException(failedGuestException);
-            //}
+            catch (Exception exception)
+            {
+                var failedGuestException = new FailedGuestServiceException(exception);
+                throw CreateAndLogServiceAllException(failedGuestException);
+            }
         }
 
 

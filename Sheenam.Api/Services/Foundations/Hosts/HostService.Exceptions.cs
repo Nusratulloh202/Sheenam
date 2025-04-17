@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
+using Sheenam.Api.Models.Foundations.Guests.Exceptions;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -69,7 +70,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 var failedHostServiceException =
                     new FailedHostServiceException(exception);
-                throw CreateAndLogDependencyValidationException(failedHostServiceException);
+                throw CreateAndLogServiceAllException(failedHostServiceException);
             }
         }
         private HostValidationException CreateAndLogValidationException(Xeption exception)
@@ -94,6 +95,15 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 new HostDependencyValidationException(exception);
             this.loggingBroker.LogError(hostDependencyValidationException);
             return hostDependencyValidationException;
+        }
+        private HostServiceAllException CreateAndLogServiceAllException(Xeption exception)
+        {
+            var hostServiceAllException =
+                new HostServiceAllException(exception);
+
+            this.loggingBroker.LogError(hostServiceAllException);
+
+            return hostServiceAllException;
         }
     }
 }
