@@ -28,6 +28,6 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 return await this.storageBroker.InsertHostAsync(host);
             });
         public IQueryable<Host> RetriveAllHosts() =>
-            TryCatch(() => this.storageBroker.SelectAllHosts());
+            TryCatch(() =>  this.storageBroker.SelectAllHosts());
     }
 }
