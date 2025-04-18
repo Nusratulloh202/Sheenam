@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
@@ -43,6 +44,25 @@ namespace Sheenam.Api.Controllers
             {
                 return BadRequest(hostDependencyValidationException.InnerException);
             }
+            catch (HostDependencyException hostDependencyException)
+            {
+                return InternalServerError(hostDependencyException.InnerException);
+            }
+            catch (HostServiceAllException hostServiceAllException)
+            {
+                return InternalServerError(hostServiceAllException.InnerException);
+            }
+        }
+        [HttpGet("All")]
+        public ActionResult<IQueryable<Host>> GetAllHosts()
+        {
+            try
+            {
+                IQueryable<Host> hosts = this.hostService.RetriveAllHosts();
+                return Ok(hosts);
+            }
+
+
             catch (HostDependencyException hostDependencyException)
             {
                 return InternalServerError(hostDependencyException.InnerException);
