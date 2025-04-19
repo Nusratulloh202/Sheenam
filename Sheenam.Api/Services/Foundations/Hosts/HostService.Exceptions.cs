@@ -34,15 +34,19 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 throw CreateAndLogValidationException(invalidHostException);
             }
+            catch (NotFoundHostException notFoundHostException)
+            {
+                throw CreateAndLogValidationException(notFoundHostException);
+            }
             catch (SqlException sqlException)
             {
-                FailedHostStorageException failedHostStorageException =
+                var failedHostStorageException =
                     new FailedHostStorageException(sqlException);
                 throw CreateAndLogCriticalDependencyException(failedHostStorageException);
             }
             catch (DuplicateKeyException dublicateKeyException)
             {
-                AlreadyExistHostException alreadyExistHostException =
+                var alreadyExistHostException =
                     new AlreadyExistHostException(dublicateKeyException);
                 throw CreateAndLogDependencyValidationException(alreadyExistHostException);
             }
