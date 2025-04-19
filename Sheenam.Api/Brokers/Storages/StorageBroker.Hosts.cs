@@ -2,10 +2,12 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Hosts;
 
 namespace Sheenam.Api.Brokers.Storages
@@ -34,7 +36,11 @@ namespace Sheenam.Api.Brokers.Storages
             var hosts = SelectAllClassHost<Host>();
             return hosts;
         }   
-
+        public ValueTask<Host> SelectByIdHost(Guid id)
+        {
+            var hostIdInfo = Hosts.FirstOrDefault(x => x.Id == id);
+            return ValueTask.FromResult(hostIdInfo);
+        }
 
     }
 }
