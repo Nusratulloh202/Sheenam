@@ -29,7 +29,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 new HostDependencyException(failedHostStorageException);
 
             this.storageBrokerMock.Setup(broker =>
-                broker.SelectGuestByIdAsync(It.IsAny<Guid>()))
+                broker.SelectByIdHostAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(sqlException);
 
             //when
