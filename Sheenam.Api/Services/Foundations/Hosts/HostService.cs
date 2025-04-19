@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Sheenam.Api.Brokers.Logings;
@@ -29,5 +30,11 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             });
         public IQueryable<Host> RetriveAllHosts() =>
             TryCatch(() =>  this.storageBroker.SelectAllHosts());
+        public ValueTask<Host> RetrieveByIdHostAsync(Guid hostId) =>
+            TryCatch(async () =>
+            {
+                Host maybeHost = await this.storageBroker.SelectByIdHostAsync(hostId);
+                return maybeHost;
+            });
     }
 }

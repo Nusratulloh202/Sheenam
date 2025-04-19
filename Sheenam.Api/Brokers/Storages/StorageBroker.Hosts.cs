@@ -36,7 +36,7 @@ namespace Sheenam.Api.Brokers.Storages
             var hosts = SelectAllClassHost<Host>();
             return hosts;
         }   
-        public ValueTask<Host> SelectByIdHost(Guid id)
+        public ValueTask<Host> SelectByIdHostAsync(Guid id)
         {
             var hostIdInfo = Hosts.FirstOrDefault(x => x.Id == id);
             return ValueTask.FromResult(hostIdInfo);
