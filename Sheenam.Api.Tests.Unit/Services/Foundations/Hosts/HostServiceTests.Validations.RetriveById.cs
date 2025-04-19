@@ -24,11 +24,13 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 values:"Id is required");
             
             var expectedHostValidationException = new HostValidationException(invalidHostException);
+
             //when
             ValueTask<Host> retriveByIdHostTask = this.hostService.RetrieveByIdHostAsync(invalidGuid);
 
             HostValidationException actualHostValidationException =
                 await Assert.ThrowsAsync<HostValidationException>(retriveByIdHostTask.AsTask);
+
             //then
             actualHostValidationException.Should().BeEquivalentTo(expectedHostValidationException);
 
