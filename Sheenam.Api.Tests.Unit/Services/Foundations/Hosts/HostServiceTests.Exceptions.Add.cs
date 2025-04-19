@@ -98,24 +98,24 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             var serviceException = new Exception(message);
             var failedHostServiceException =
                 new FailedHostServiceException(serviceException);
-            var expectedHostDependencyValidationException =
-                new HostDependencyValidationException(failedHostServiceException);
+            var expectedHostServiceAllException =
+                new HostServiceAllException(failedHostServiceException);
             this.storageBrokerMock.Setup(broker =>
                 broker.InsertHostAsync(someHost))
                 .ThrowsAsync(serviceException);
             //when
             ValueTask<Host> addHostTask =
                 this.hostService.AddHostAsync(someHost);
-            var actualHostDependencyValidationException =
-                await Assert.ThrowsAsync<HostDependencyValidationException>(() =>
+            var actualHostServiceAllException =
+                await Assert.ThrowsAsync<HostServiceAllException>(() =>
                 addHostTask.AsTask());
             //then
-            actualHostDependencyValidationException.Should().BeEquivalentTo(expectedHostDependencyValidationException);
+            actualHostServiceAllException.Should().BeEquivalentTo(expectedHostServiceAllException);
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertHostAsync(someHost),
                 Times.Once());
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(expectedHostDependencyValidationException))),
+                broker.LogError(It.Is(SameExceptionAs(expectedHostServiceAllException))),
                 Times.Once());
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
