@@ -65,7 +65,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             }
             catch (SqlException sqlException)
             {
-                var failedHostStorageException = 
+                var failedHostStorageException =
                     new FailedHostStorageException(sqlException);
                 throw CreateAndLogCriticalDependencyException(failedHostStorageException);
             }

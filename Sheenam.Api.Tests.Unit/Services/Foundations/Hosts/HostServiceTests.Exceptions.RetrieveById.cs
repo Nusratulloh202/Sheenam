@@ -25,7 +25,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             var failedHostStorageException =
                 new FailedHostStorageException(sqlException);
 
-            var expectedHostDependencyException = 
+            var expectedHostDependencyException =
                 new HostDependencyException(failedHostStorageException);
 
             this.storageBrokerMock.Setup(broker =>
@@ -33,10 +33,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 .ThrowsAsync(sqlException);
 
             //when
-            ValueTask<Host> RetrieveByIdTask = 
+            ValueTask<Host> RetrieveByIdTask =
                 this.hostService.RetrieveByIdHostAsync(someGuidHost);
 
-            HostDependencyException actualHostDependencyException = 
+            HostDependencyException actualHostDependencyException =
                 await Assert.ThrowsAsync<HostDependencyException>(RetrieveByIdTask.AsTask);
 
             //then

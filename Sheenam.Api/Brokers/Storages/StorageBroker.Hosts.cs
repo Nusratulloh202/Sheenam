@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Hosts;
 
 namespace Sheenam.Api.Brokers.Storages
@@ -25,7 +24,7 @@ namespace Sheenam.Api.Brokers.Storages
             await broker.SaveChangesAsync();
             return hostEntityEntry.Entity;
         }
-        private IQueryable<T> SelectAllClassHost<T> () where T : class
+        private IQueryable<T> SelectAllClassHost<T>() where T : class
         {
             var broker = new StorageBroker(this.configuration);
             return broker.Set<T>();
@@ -35,7 +34,7 @@ namespace Sheenam.Api.Brokers.Storages
         {
             var hosts = SelectAllClassHost<Host>();
             return hosts;
-        }   
+        }
         public ValueTask<Host> SelectByIdHostAsync(Guid id)
         {
             var hostIdInfo = Hosts.FirstOrDefault(x => x.Id == id);

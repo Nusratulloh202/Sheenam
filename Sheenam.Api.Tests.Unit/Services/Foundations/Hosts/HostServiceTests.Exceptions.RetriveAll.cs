@@ -17,10 +17,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
         {
             //given
             SqlException sqlExceptions = GetSqlException();
-            var failedHostStorageException = 
+            var failedHostStorageException =
                 new FailedHostStorageException(sqlExceptions);
 
-            HostDependencyException expectedHostDependecyException = 
+            HostDependencyException expectedHostDependecyException =
                 new HostDependencyException(failedHostStorageException);
 
             this.storageBrokerMock.Setup(broker =>
@@ -34,11 +34,11 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             actualHostDependencyException.Should().BeEquivalentTo(expectedHostDependecyException);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.SelectAllHosts(), 
+                broker.SelectAllHosts(),
                 Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogCritical(It.Is(SameExceptionAs(expectedHostDependecyException))), 
+                broker.LogCritical(It.Is(SameExceptionAs(expectedHostDependecyException))),
                 Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
@@ -51,7 +51,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             string exceptionMessage = GetRandomString();
             var serverException = new Exception(exceptionMessage);
 
-            var failedHostServiceException = 
+            var failedHostServiceException =
                 new FailedHostServiceException(serverException);
             HostServiceAllException expectedHostServiceAllException =
                 new HostServiceAllException(failedHostServiceException);
@@ -63,7 +63,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             Action retriveAllHostsAction = () =>
                 this.hostService.RetriveAllHosts();
 
-            HostServiceAllException actualHostServiceAllException = 
+            HostServiceAllException actualHostServiceAllException =
                 Assert.Throws<HostServiceAllException>(retriveAllHostsAction);
 
             //then

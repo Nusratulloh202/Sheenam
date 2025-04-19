@@ -15,7 +15,7 @@ namespace Sheenam.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HostsController:RESTFulController
+    public class HostsController : RESTFulController
     {
         private readonly IHostService hostService;
         public HostsController(IHostService hostService)
@@ -31,7 +31,7 @@ namespace Sheenam.Api.Controllers
                 Host postedHost = await this.hostService.AddHostAsync(host);
                 return Created(postedHost);
             }
-            catch(HostValidationException hostValidationException)
+            catch (HostValidationException hostValidationException)
             {
                 return BadRequest(hostValidationException.InnerException);
             }

@@ -13,16 +13,16 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
     public partial class HostServiceTests
     {
         [Fact]
-       public async Task ShoulThrowHostValidationExceptionOnRetrieveByIdIfIdIsInvalidLogItAsync()
+        public async Task ShoulThrowHostValidationExceptionOnRetrieveByIdIfIdIsInvalidLogItAsync()
         {
             //given
             Guid invalidGuid = Guid.Empty;
             var invalidHostException = new InvalidHostException();
 
             invalidHostException.AddData(
-                key:nameof(Host.Id),
-                values:"Id is required");
-            
+                key: nameof(Host.Id),
+                values: "Id is required");
+
             var expectedHostValidationException = new HostValidationException(invalidHostException);
 
             //when
@@ -35,7 +35,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             actualHostValidationException.Should().BeEquivalentTo(expectedHostValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(expectedHostValidationException))), 
+                broker.LogError(It.Is(SameExceptionAs(expectedHostValidationException))),
                 Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
@@ -44,7 +44,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-       }
+        }
         [Fact]
         public async Task ShouldThrowValidationExceptionOnRetrieveByIdIfHostNotFoundAndLogItAsync()
         {
@@ -62,10 +62,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 broker.SelectByIdHostAsync(It.IsAny<Guid>())).ReturnsAsync(noHost);
 
             //when
-            ValueTask<Host> RetrieveByIdTask = 
+            ValueTask<Host> RetrieveByIdTask =
                 this.hostService.RetrieveByIdHostAsync(someHostId);
 
-            var actualHostValidationException = 
+            var actualHostValidationException =
                 await Assert.ThrowsAsync<HostValidationException>
                 (RetrieveByIdTask.AsTask);
 
@@ -78,7 +78,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(
-                    It.Is(SameExceptionAs(expectedHostValidationException))),Times.Once);
+                    It.Is(SameExceptionAs(expectedHostValidationException))), Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();

@@ -29,14 +29,14 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 return await this.storageBroker.InsertHostAsync(host);
             });
         public IQueryable<Host> RetriveAllHosts() =>
-            TryCatch(() =>  this.storageBroker.SelectAllHosts());
+            TryCatch(() => this.storageBroker.SelectAllHosts());
         public ValueTask<Host> RetrieveByIdHostAsync(Guid hostId) =>
             TryCatch(async () =>
             {
                 ValidateHostId(hostId);
                 Host maybeHost = await this.storageBroker.SelectByIdHostAsync(hostId);
                 ValidateStorageHost(maybeHost, hostId);
-                    
+
                 return maybeHost;
             });
     }
