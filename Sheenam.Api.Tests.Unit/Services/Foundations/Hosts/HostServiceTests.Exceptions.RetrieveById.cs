@@ -40,7 +40,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 await Assert.ThrowsAsync<HostDependencyException>(RetrieveByIdTask.AsTask);
 
             //then
-            actualHostDependencyException.Should().BeEquivalentTo(expectedHostDependencyException);
+            actualHostDependencyException.Should()
+                .BeEquivalentTo(expectedHostDependencyException);
 
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectByIdHostAsync(someGuidHost), Times.Once);
