@@ -62,10 +62,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             Guid someIdHost = Guid.NewGuid();
             Exception serverException = new Exception();
 
-            var failedHostServiceException = 
+            var failedHostServiceException =
                 new FailedHostServiceException(serverException);
 
-            var expectedHostServiceAllException = 
+            var expectedHostServiceAllException =
                 new HostServiceAllException(failedHostServiceException);
 
             this.storageBrokerMock.Setup(broker =>
@@ -73,7 +73,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 .ThrowsAsync(serverException);
 
             //when
-            ValueTask<Host> RetrieveByIdTask = 
+            ValueTask<Host> RetrieveByIdTask =
                 this.hostService.RetrieveByIdHostAsync(someIdHost);
 
             HostServiceAllException actualHostServiceAllException =
