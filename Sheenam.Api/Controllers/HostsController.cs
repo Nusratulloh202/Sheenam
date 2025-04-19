@@ -2,10 +2,12 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
+using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -63,6 +65,35 @@ namespace Sheenam.Api.Controllers
             }
 
 
+            catch (HostDependencyException hostDependencyException)
+            {
+                return InternalServerError(hostDependencyException.InnerException);
+            }
+            catch (HostServiceAllException hostServiceAllException)
+            {
+                return InternalServerError(hostServiceAllException.InnerException);
+            }
+        }
+        [HttpGet("ById")]
+        public async Task<ActionResult<Host>> GetHostByIdAsync(Guid hostId)
+        {
+            try
+            {
+                return await this.hostService.RetrieveByIdHostAsync(hostId);
+            }
+            catch (HostValidationException hostValidationException)
+            {
+                return BadRequest(hostValidationException.InnerException);
+            }
+            catch (HostDependencyValidationException hostDependencyValidationException)
+                when (hostDependencyValidationException.InnerException is AlreadyExistHostException)
+            {
+                return Conflict(hostDependencyValidationException.InnerException);
+            }
+            catch (HostDependencyValidationException hostDependencyValidationException)
+            {
+                return BadRequest(hostDependencyValidationException.InnerException);
+            }
             catch (HostDependencyException hostDependencyException)
             {
                 return InternalServerError(hostDependencyException.InnerException);
