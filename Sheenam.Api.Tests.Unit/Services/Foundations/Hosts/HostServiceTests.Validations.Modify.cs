@@ -64,32 +64,32 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
             invalidHostException.AddData(
                 key: nameof(Host.FirstName),
-                values: "Text is required");           
-            
+                values: "Text is required");
+
             invalidHostException.AddData(
                 key: nameof(Host.LastName),
-                values: "Text is required");            
-            
+                values: "Text is required");
+
             invalidHostException.AddData(
                 key: nameof(Host.DateOfBirth),
                 values: "Date is required");
-            
+
             invalidHostException.AddData(
                 key: nameof(Host.Email),
-                values: "Text is required"); 
-            
+                values: "Text is required");
+
             invalidHostException.AddData(
                 key: nameof(Host.PhoneNumber),
                 values: "Text is required");
 
-            var expectedHostValidationException = 
+            var expectedHostValidationException =
                 new HostValidationException(invalidHostException);
 
             //when
-            ValueTask<Host> modifyHostTask = 
+            ValueTask<Host> modifyHostTask =
                 this.hostService.ModifyHostAsync(invalidHost);
 
-            var actualHostValidationException = 
+            var actualHostValidationException =
                 await Assert.ThrowsAsync<HostValidationException>(
                     modifyHostTask.AsTask);
 

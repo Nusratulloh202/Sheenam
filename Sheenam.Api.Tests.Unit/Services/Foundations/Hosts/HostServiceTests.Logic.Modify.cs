@@ -38,11 +38,11 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             actualHost.Should().BeEquivalentTo(expectedHost);
 
             this.storageBrokerMock.Verify(broker =>
-                broker.SelectByIdHostAsync(inputHostId), 
+                broker.SelectByIdHostAsync(inputHostId),
                 Times.Once());
 
             this.storageBrokerMock.Verify(broker =>
-                broker.UpdateHostAsync(inputHost), 
+                broker.UpdateHostAsync(inputHost),
                 Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();

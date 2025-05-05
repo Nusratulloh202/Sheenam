@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sheenam.Api.Models.Foundations.Hosts;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Sheenam.Api.Brokers.Storages
 {
@@ -41,7 +40,7 @@ namespace Sheenam.Api.Brokers.Storages
             var hostIdInfo = Hosts.FirstOrDefault(x => x.Id == id);
             return ValueTask.FromResult(hostIdInfo);
         }
- 
+
         public async ValueTask<Host> UpdateHostAsync(Host host)
         {
             var broker = new StorageBroker(configuration);
@@ -49,7 +48,7 @@ namespace Sheenam.Api.Brokers.Storages
             await this.SaveChangesAsync();
             return host;
         }
-     
+
 
 
     }

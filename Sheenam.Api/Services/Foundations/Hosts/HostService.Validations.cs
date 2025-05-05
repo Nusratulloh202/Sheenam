@@ -4,7 +4,6 @@
 //==================================================
 using System;
 using Sheenam.Api.Models.Foundations.Enums;
-using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
 
