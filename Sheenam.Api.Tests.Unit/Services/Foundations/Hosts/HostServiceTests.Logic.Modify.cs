@@ -11,41 +11,43 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 {
     public partial class HostServiceTests
     {
-        //[Fact]
-        //public async Task ShouldModifyHostAsync()
-        //{
-        //    // given 
-        //    Host randomHost = CreateRandomHost();
-        //    Host inputHost = randomHost;
-        //    Host persistedHost = inputHost.DeepClone();
-        //    Host updatedHost = inputHost;
-        //    Host expectedHost = updatedHost.DeepClone();
-        //    Guid inputGuestId = inputHost.Id;
+        [Fact]
+        public async Task ShouldModifyHostAsync()
+        {
+            // given 
+            Host randomHost = CreateRandomHost();
+            Host inputHost = randomHost;
+            Host persistedHost = inputHost.DeepClone();
+            Host updatedHost = inputHost;
+            Host expectedHost = updatedHost.DeepClone();
+            Guid inputHostId = inputHost.Id;
 
-        //    this.storageBrokerMock.Setup(broker =>
-        //        broker.SelectByIdHostAsync(inputGuestId))
-        //            .ReturnsAsync(persistedHost);
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectByIdHostAsync(inputHostId))
+                    .ReturnsAsync(persistedHost);
 
-        //    this.storageBrokerMock.Setup(broker =>
-        //        broker.UpdateHostAsync(inputHost))
-        //            .ReturnsAsync(updatedHost);
+            this.storageBrokerMock.Setup(broker =>
+                broker.UpdateHostAsync(inputHost))
+                    .ReturnsAsync(updatedHost);
 
-        //    //when
-        //    Host actualGuest =
-        //        await this.hostService.ModifyHostAsync(inputHost);
+            //when
+            Host actualHost =
+                await this.hostService.ModifyHostAsync(inputHost);
 
-        //    // then
-        //    actualGuest.Should().BeEquivalentTo(expectedHost);
+            // then
+            actualHost.Should().BeEquivalentTo(expectedHost);
 
-        //    this.storageBrokerMock.Verify(broker =>
-        //        broker.SelectByIdHostAsync(inputGuestId), Times.Once());
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectByIdHostAsync(inputHostId), 
+                Times.Once());
 
-        //    this.storageBrokerMock.Verify(broker =>
-        //        broker.UpdateHostAsync(inputHost), Times.Once);
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateHostAsync(inputHost), 
+                Times.Once);
 
-        //    this.storageBrokerMock.VerifyNoOtherCalls();
-        //    this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
 
-        //}
+        }
     }
 }

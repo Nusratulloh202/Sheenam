@@ -41,8 +41,14 @@ namespace Sheenam.Api.Brokers.Storages
             var hostIdInfo = Hosts.FirstOrDefault(x => x.Id == id);
             return ValueTask.FromResult(hostIdInfo);
         }
-        public async ValueTask<Host> UpdateHostAsync(Host host) =>
-            await UpdateAsync(host);
+ 
+        public async ValueTask<Host> UpdateHostAsync(Host host)
+        {
+            var broker = new StorageBroker(configuration);
+            this.Entry(host).State = EntityState.Modified;
+            await this.SaveChangesAsync();
+            return host;
+        }
      
 
 

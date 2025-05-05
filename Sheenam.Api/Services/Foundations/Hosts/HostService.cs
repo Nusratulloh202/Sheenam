@@ -43,8 +43,10 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             TryCatch(async () =>
             {
                 ValidateHostOnModify(host);
+
                 Host maybeHost =
                     await this.storageBroker.SelectByIdHostAsync(host.Id);
+
                 ValidateAgainstStorageHostOnModify(host, maybeHost);
 
                 return await this.storageBroker.UpdateHostAsync(maybeHost);

@@ -22,14 +22,7 @@ namespace Sheenam.Api.Brokers.Storages
             string connectionString = this.configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
         }
-        public async ValueTask<T> UpdateAsync<T>(T @object)
-        {
-            var broker = new StorageBroker(configuration);
-            broker.Entry(@object).State = EntityState.Modified;
-            await broker.SaveChangesAsync();
-
-            return @object;
-        }
+      
 
         public override void Dispose() { }
     }

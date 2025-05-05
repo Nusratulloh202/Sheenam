@@ -4,7 +4,6 @@
 //==================================================
 using FluentAssertions;
 using Moq;
-using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
