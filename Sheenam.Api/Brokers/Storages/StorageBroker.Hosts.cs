@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sheenam.Api.Models.Foundations.Hosts;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Sheenam.Api.Brokers.Storages
 {
