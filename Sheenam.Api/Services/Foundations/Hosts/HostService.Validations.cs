@@ -31,7 +31,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 (Rule: IsInvalid(host.DateOfBirth), Parameter: nameof(host.DateOfBirth)),
                 (Rule: IsInvalid(host.HostGender), Parameter: nameof(host.HostGender)));
         }
-   
+
 
         private static dynamic IsInvalid(Guid id) => new
         {

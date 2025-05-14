@@ -42,7 +42,7 @@ namespace Sheenam.Api.Brokers.Storages
         }
         public async ValueTask<Host> UpdateHostAsync(Host host) =>
             await UpdateAsync(host);
-     
+
 
 
     }

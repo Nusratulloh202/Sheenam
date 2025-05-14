@@ -15,7 +15,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
         public async Task ShouldModifyHostAsync()
         {
             //given
-            Host randomHost=CreateRandomHost();
+            Host randomHost = CreateRandomHost();
             Host inputHost = randomHost;
             Host persistedHost = inputHost.DeepClone();
             Host updateHost = inputHost;
@@ -27,7 +27,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 broker.SelectByIdHostAsync(InputHostId))
                 .ReturnsAsync(persistedHost);
 
-            this.storageBrokerMock.Setup(broker=>
+            this.storageBrokerMock.Setup(broker =>
                 broker.UpdateHostAsync(inputHost))
                 .ReturnsAsync(updateHost);
 
