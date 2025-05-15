@@ -80,7 +80,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
         }
         private static void ValidateAgainstStorageHostOnModify(Host host, Host storageHost)
         {
-             ValidateStorageHost(storageHost, host.Id);
+            ValidateStorageHost(storageHost, host.Id);
             Validate(
                 (Rule: IsInvalid(host.FirstName), Parameter: nameof(host.FirstName)),
                 (Rule: IsInvalid(host.LastName), Parameter: nameof(host.LastName)),

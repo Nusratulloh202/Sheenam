@@ -92,7 +92,7 @@ namespace Sheenam.Api.Services.Foundations.Guests
             Validate(
                 (Rule: IsInvalid(guest.Id), Parameter: nameof(Guest.Id)),
                 (Rule: IsInvalid(guest.FirstName), Parameter: nameof(Guest.FirstName)),
-                (Rule: IsInvalid(guest.LastName), Parameter: nameof(Guest.LastName)),       
+                (Rule: IsInvalid(guest.LastName), Parameter: nameof(Guest.LastName)),
                 (Rule: IsInvalid(guest.DateOffBirth), Parameter: nameof(Guest.DateOffBirth)),
                 (Rule: IsInvalid(guest.Email), Parameter: nameof(Guest.Email)),
                 (Rule: IsInvalid(guest.PhoneNumber), Parameter: nameof(Guest.PhoneNumber)),

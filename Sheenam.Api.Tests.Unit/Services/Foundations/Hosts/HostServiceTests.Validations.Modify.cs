@@ -24,7 +24,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             //when
             ValueTask<Host> modifyHostTask = this.hostService.ModifyHostAsync(nullHost);
 
-            HostValidationException actualHostValidationException = 
+            HostValidationException actualHostValidationException =
                 await Assert.ThrowsAsync<HostValidationException>(modifyHostTask.AsTask);
 
             //then
@@ -36,8 +36,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                     expectedHostValidationException))),
                     Times.Once);
 
-            this.storageBrokerMock.Verify(broker=>
-                broker.UpdateHostAsync(It.IsAny<Host>()), 
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateHostAsync(It.IsAny<Host>()),
                 Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
@@ -57,8 +57,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             };
             var invalidHostException = new InvalidHostException();
             invalidHostException.AddData(
-                key:nameof(Host.Id),
-                values:  "Id is required" );
+                key: nameof(Host.Id),
+                values: "Id is required");
             invalidHostException.AddData(
                 key: nameof(Host.FirstName),
                 values: "Text is required");
@@ -75,11 +75,11 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 key: nameof(Host.DateOfBirth),
                 values: "Date is required");
 
-            var expectedHostValidationException = 
+            var expectedHostValidationException =
                 new HostValidationException(invalidHostException);
             //when
             ValueTask<Host> modifyHostTask = this.hostService.ModifyHostAsync(invalidHost);
-            var actualHostValidationException = await 
+            var actualHostValidationException = await
                 Assert.ThrowsAsync<HostValidationException>(modifyHostTask.AsTask);
             //then
             actualHostValidationException.Should()
@@ -108,14 +108,14 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             var notFoundHostException =
                 new NotFoundHostException(notExistHost.Id);
 
-            var expectedHostValidationException = 
+            var expectedHostValidationException =
                 new HostValidationException(notFoundHostException);
 
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectByIdHostAsync(notExistHost.Id))
                     .ReturnsAsync(noHost);
             //when
-            ValueTask<Host> modifyHostTask = 
+            ValueTask<Host> modifyHostTask =
                 this.hostService.ModifyHostAsync(notExistHost);
             HostValidationException actualHostValidationException =
                 await Assert.ThrowsAsync<HostValidationException>(
