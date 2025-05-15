@@ -48,7 +48,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public async Task ShouldThrowValidationExceptionOnModifyIfHostIsInvalidAndLogITAsync(string invalidString)
+        public async Task ShouldThrowValidationExceptionOnModifyIfHostIsInvalidAndLogItAsync(string invalidString)
         {
             //given
             Host invalidHost = new Host
@@ -96,6 +96,50 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnModifyIfHostDoesNotExistAndLogItAsync()
+        {
+            //given 
+            Host randomHost = CreateRandomHost();
+            Host notExistHost = randomHost;
+            Host noHost = null;
+            var notFoundHostException =
+                new NotFoundHostException(notExistHost.Id);
+
+            var expectedHostValidationException = 
+                new HostValidationException(notFoundHostException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectByIdHostAsync(notExistHost.Id))
+                    .ReturnsAsync(noHost);
+            //when
+            ValueTask<Host> modifyHostTask = 
+                this.hostService.ModifyHostAsync(notExistHost);
+            HostValidationException actualHostValidationException =
+                await Assert.ThrowsAsync<HostValidationException>(
+                    modifyHostTask.AsTask);
+            //then
+            actualHostValidationException.Should()
+                .BeEquivalentTo(expectedHostValidationException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectByIdHostAsync(notExistHost.Id),
+                Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedHostValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateHostAsync(It.IsAny<Host>()),
+                    Times.Never);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+
         }
     }
 }
