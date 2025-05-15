@@ -156,5 +156,54 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             this.loggingBrokerMock.VerifyNoOtherCalls();
 
         }
+
+        //Servicedan keladigan xatolar uchun
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnModifyIfDatabaseUpdateErrorOccursAndLogItAsync()
+        {
+            //given
+            Host randomHost = CreateRandomHost();
+            Host someHost = randomHost;
+            Guid hostId = someHost.Id;
+            Exception serviceException = new Exception();
+
+            var failedHostServiceException = 
+                new FailedHostServiceException(serviceException);
+
+            var expectedServiceAllException = 
+                new HostServiceAllException(failedHostServiceException);
+            
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectByIdHostAsync(hostId))
+                .ThrowsAsync(serviceException);
+
+            //when
+            ValueTask<Host> modifyHostTask =
+                this.hostService.ModifyHostAsync(someHost);
+
+            HostServiceAllException actualHostServiceAllException =
+                await Assert.ThrowsAsync<HostServiceAllException>
+                (modifyHostTask.AsTask);
+
+            //then
+            actualHostServiceAllException.Should()
+                .BeEquivalentTo(expectedServiceAllException);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedServiceAllException))),
+                    Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectByIdHostAsync(hostId),
+                Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateHostAsync(It.IsAny<Host>()),
+                Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }

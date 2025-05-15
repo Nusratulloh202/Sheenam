@@ -51,12 +51,12 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 throw CreateAndLogCriticalDependencyException(failedHostStorageException);
             }
 
-            catch (SqlException sqlException)
-            {
-                var failedHostStorageException =
-                    new FailedHostStorageException(sqlException);
-                throw CreateAndLogCriticalDependencyException(failedHostStorageException);
-            }
+            //catch (SqlException sqlException)
+            //{
+            //    var failedHostStorageException =
+            //        new FailedHostStorageException(sqlException);
+            //    throw CreateAndLogCriticalDependencyException(failedHostStorageException);
+            //}
             catch (DuplicateKeyException dublicateKeyException)
             {
                 var alreadyExistHostException =
