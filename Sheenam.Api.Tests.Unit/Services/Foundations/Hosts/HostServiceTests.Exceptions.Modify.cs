@@ -4,6 +4,7 @@
 //==================================================
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
@@ -24,7 +25,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             Guid hostId = someHost.Id;
             SqlException sqlException = GetSqlException();
 
-            var failedHostStorageException = 
+            var failedHostStorageException =
                 new FailedHostStorageException(sqlException);
 
             var expectedHostDependencyException =
@@ -56,6 +57,54 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
             this.storageBrokerMock.Verify(broker =>
                 broker.UpdateHostAsync(It.IsAny<Host>()), Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+        //database da update qilgunimizcha yuzaga keladigan Exceptionlar uchun
+        [Fact]
+        public async Task ShouldThrowDependencyValidationOnModifyIfDbUpdateConcurrencyErrorOccursAndLogItAsync()
+        {
+            //given
+            Host randomHost = CreateRandomHost();
+            Host someHost = randomHost;
+            Guid hostId = someHost.Id;
+            var dbUpdateException =
+                new DbUpdateException();
+
+            FailedHostStorageException failedHostStorageException =
+                new FailedHostStorageException(dbUpdateException);
+
+            HostDependencyException expectedHostDependencyException =
+                new HostDependencyException(failedHostStorageException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectByIdHostAsync(hostId))
+                .ThrowsAsync(dbUpdateException);
+
+            //when
+            ValueTask<Host> modifyHostTask =
+                this.hostService.ModifyHostAsync(someHost);
+
+            HostDependencyException actualHostDependencyException =
+                await Assert.ThrowsAsync<HostDependencyException>
+                (modifyHostTask.AsTask);
+            //then
+            actualHostDependencyException.Should()
+                .BeEquivalentTo(expectedHostDependencyException);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedHostDependencyException))),
+                Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectByIdHostAsync(hostId),
+                Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.UpdateHostAsync(It.IsAny<Host>()),
+                Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
