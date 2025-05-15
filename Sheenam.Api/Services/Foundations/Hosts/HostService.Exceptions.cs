@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Sheenam.Api.Models.Foundations.Hosts;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
@@ -36,6 +37,12 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             catch (NotFoundHostException notFoundHostException)
             {
                 throw CreateAndLogValidationException(notFoundHostException);
+            }
+            catch(DbUpdateException dbUpdateException)
+            {
+                var failedHostStorageException =
+                    new FailedHostStorageException(dbUpdateException);
+                throw CreateAndLogCriticalDependencyException(failedHostStorageException);
             }
 
             catch (SqlException sqlException)

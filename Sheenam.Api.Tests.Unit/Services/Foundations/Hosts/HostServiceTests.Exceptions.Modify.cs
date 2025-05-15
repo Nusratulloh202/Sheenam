@@ -94,7 +94,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 .BeEquivalentTo(expectedHostDependencyException);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
+                broker.LogCritical(It.Is(SameExceptionAs(
                     expectedHostDependencyException))),
                 Times.Once);
 
