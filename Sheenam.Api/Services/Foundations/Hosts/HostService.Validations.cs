@@ -65,6 +65,30 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             }
         }
 
+
+
+        private static void ValidateHostOnModify(Host host)
+        {
+            ValidateHostNotNull(host);
+            Validate(
+                (Rule: IsInvalid(host.Id), Parameter: nameof(host.Id)),
+                (Rule: IsInvalid(host.FirstName), Parameter: nameof(host.FirstName)),
+                (Rule: IsInvalid(host.LastName), Parameter: nameof(host.LastName)),
+                (Rule: IsInvalid(host.Email), Parameter: nameof(host.Email)),
+                (Rule: IsInvalid(host.PhoneNumber), Parameter: nameof(host.PhoneNumber)),
+                (Rule: IsInvalid(host.DateOfBirth), Parameter: nameof(host.DateOfBirth)));
+        }
+        private static void ValidateAgainstStorageHostOnModify(Host host, Host storageHost)
+        {
+             ValidateStorageHost(storageHost, host.Id);
+            Validate(
+                (Rule: IsInvalid(host.FirstName), Parameter: nameof(host.FirstName)),
+                (Rule: IsInvalid(host.LastName), Parameter: nameof(host.LastName)),
+                (Rule: IsInvalid(host.Email), Parameter: nameof(host.Email)),
+                (Rule: IsInvalid(host.PhoneNumber), Parameter: nameof(host.PhoneNumber)),
+                (Rule: IsInvalid(host.DateOfBirth), Parameter: nameof(host.DateOfBirth)));
+        }
+
         private static void Validate(params (dynamic Rule, string Paramet)[] validations)
         {
             var invalidHostExseption = new InvalidHostException();
