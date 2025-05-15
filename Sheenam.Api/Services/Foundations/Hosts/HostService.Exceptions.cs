@@ -30,6 +30,12 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 throw CreateAndLogValidationException(nullHostException);
             }
+            //catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            //{ 
+            //    var lockedHostException =
+            //        new LockedHostException(dbUpdateConcurrencyException);
+            //    throw CreateAndLogDependencyValidationException(lockedHostException);
+            //}
             catch (InvalidHostException invalidHostException)
             {
                 throw CreateAndLogValidationException(invalidHostException);
@@ -38,7 +44,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 throw CreateAndLogValidationException(notFoundHostException);
             }
-            catch(DbUpdateException dbUpdateException)
+            catch (DbUpdateException dbUpdateException)
             {
                 var failedHostStorageException =
                     new FailedHostStorageException(dbUpdateException);
