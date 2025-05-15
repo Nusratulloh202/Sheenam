@@ -32,6 +32,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 (Rule: IsInvalid(host.HostGender), Parameter: nameof(host.HostGender)));
         }
 
+
         private static dynamic IsInvalid(Guid id) => new
         {
             Condition = id == Guid.Empty,
@@ -62,6 +63,30 @@ namespace Sheenam.Api.Services.Foundations.Hosts
             {
                 throw new NotFoundHostException(hostId);
             }
+        }
+
+
+
+        private static void ValidateHostOnModify(Host host)
+        {
+            ValidateHostNotNull(host);
+            Validate(
+                (Rule: IsInvalid(host.Id), Parameter: nameof(host.Id)),
+                (Rule: IsInvalid(host.FirstName), Parameter: nameof(host.FirstName)),
+                (Rule: IsInvalid(host.LastName), Parameter: nameof(host.LastName)),
+                (Rule: IsInvalid(host.Email), Parameter: nameof(host.Email)),
+                (Rule: IsInvalid(host.PhoneNumber), Parameter: nameof(host.PhoneNumber)),
+                (Rule: IsInvalid(host.DateOfBirth), Parameter: nameof(host.DateOfBirth)));
+        }
+        private static void ValidateAgainstStorageHostOnModify(Host host, Host storageHost)
+        {
+            ValidateStorageHost(storageHost, host.Id);
+            Validate(
+                (Rule: IsInvalid(host.FirstName), Parameter: nameof(host.FirstName)),
+                (Rule: IsInvalid(host.LastName), Parameter: nameof(host.LastName)),
+                (Rule: IsInvalid(host.Email), Parameter: nameof(host.Email)),
+                (Rule: IsInvalid(host.PhoneNumber), Parameter: nameof(host.PhoneNumber)),
+                (Rule: IsInvalid(host.DateOfBirth), Parameter: nameof(host.DateOfBirth)));
         }
 
         private static void Validate(params (dynamic Rule, string Paramet)[] validations)
