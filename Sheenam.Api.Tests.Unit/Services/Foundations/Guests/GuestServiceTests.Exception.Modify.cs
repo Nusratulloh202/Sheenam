@@ -102,20 +102,20 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Guests
             this.storageBrokerMock.VerifyNoOtherCalls();
         }
 
-            //qora ruyxatdagi guestni update qilmaslik uchun test
-            [Fact]
+        //qora ruyxatdagi guestni update qilmaslik uchun test
+        [Fact]
 
-            public async Task ShouldThrowDependencyValidationExceptionOnModifyIfDatabaseUpdateConcurrencyErrorOccursAndLogItAsync()
-            {
-                Guest randomGuest = CreateRandomGuest();
-                Guest someGuest = randomGuest;
-                Guid guestId = someGuest.Id;
+        public async Task ShouldThrowDependencyValidationExceptionOnModifyIfDatabaseUpdateConcurrencyErrorOccursAndLogItAsync()
+        {
+            Guest randomGuest = CreateRandomGuest();
+            Guest someGuest = randomGuest;
+            Guid guestId = someGuest.Id;
 
-                DbUpdateConcurrencyException dbUpdateConcurrencyException =
-                    new DbUpdateConcurrencyException();
+            DbUpdateConcurrencyException dbUpdateConcurrencyException =
+                new DbUpdateConcurrencyException();
 
-                var lockedGuestException =
-                    new LockedGuestException(dbUpdateConcurrencyException);
+            var lockedGuestException =
+                new LockedGuestException(dbUpdateConcurrencyException);
 
             var expectedGuestDependencyValidationException =
                 new GuestDependencyValidationException(lockedGuestException);

@@ -123,7 +123,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                 new LockedHostException(databaseUpdateConcurrencyException);
             var expectedHostDependencyValidationException =
                 new HostDependencyValidationException(lockedHostException);
-            
+
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectByIdHostAsync(hostId))
                 .ThrowsAsync(databaseUpdateConcurrencyException);
@@ -139,7 +139,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             actualHostDependencyValidationException.Should()
                 .BeEquivalentTo(expectedHostDependencyValidationException);
 
-            this.storageBrokerMock.Verify(broker=>
+            this.storageBrokerMock.Verify(broker =>
                 broker.SelectByIdHostAsync(hostId),
                 Times.Once);
 
@@ -167,12 +167,12 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             Guid hostId = someHost.Id;
             Exception serviceException = new Exception();
 
-            var failedHostServiceException = 
+            var failedHostServiceException =
                 new FailedHostServiceException(serviceException);
 
-            var expectedServiceAllException = 
+            var expectedServiceAllException =
                 new HostServiceAllException(failedHostServiceException);
-            
+
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectByIdHostAsync(hostId))
                 .ThrowsAsync(serviceException);
