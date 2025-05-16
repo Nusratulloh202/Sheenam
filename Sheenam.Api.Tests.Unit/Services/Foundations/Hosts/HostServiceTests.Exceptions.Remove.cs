@@ -3,6 +3,7 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using FluentAssertions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Sheenam.Api.Models.Foundations.Hosts;
@@ -48,6 +49,47 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedHostDependencyValidationException))), Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.DeleteHostAsync(It.IsAny<Host>()), Times.Never);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnRemoveWhenSqlExceptionOccursAndLogItAsync()
+        {
+            //given
+            Guid someHostId = Guid.NewGuid();
+            SqlException sqlException = GetSqlException();
+
+            var failedHostStorageException =
+                new FailedHostStorageException(sqlException);
+
+            var expectedHostDependencyException =
+                new HostDependencyException(failedHostStorageException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectByIdHostAsync(It.IsAny<Guid>()))
+                .ThrowsAsync(sqlException);
+            //when
+            ValueTask<Host> removeHostById =
+                this.hostService.RemoveHostAsync(someHostId);
+
+            var actualHostDependencyException =
+                await Assert.ThrowsAsync<HostDependencyException>(
+                    removeHostById.AsTask);
+            //then
+            actualHostDependencyException.Should()
+                .BeEquivalentTo(expectedHostDependencyException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.SelectByIdHostAsync(It.IsAny<Guid>()), Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogCritical(It.Is(SameExceptionAs(
+                    expectedHostDependencyException))), Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
                 broker.DeleteHostAsync(It.IsAny<Host>()), Times.Never);
