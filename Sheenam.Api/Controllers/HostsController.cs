@@ -133,5 +133,35 @@ namespace Sheenam.Api.Controllers
                 return InternalServerError(hostServiceAllException.InnerException);
             }
         }
+        [HttpDelete]
+        public async Task<ActionResult<Host>> DeleteHostAsync(Guid hostId)
+        {
+            try
+            {
+                Host deletedHost = await this.hostService.RemoveHostAsync(hostId);
+                return Ok(deletedHost);
+            }
+            catch (HostValidationException hostValidationException)
+            {
+                return BadRequest(hostValidationException.InnerException);
+            }
+            catch (HostDependencyValidationException hostDependencyValidationException)
+                when (hostDependencyValidationException.InnerException is AlreadyExistHostException)
+            {
+                return Conflict(hostDependencyValidationException.InnerException);
+            }
+            catch (HostDependencyValidationException hostDependencyValidationException)
+            {
+                return BadRequest(hostDependencyValidationException.InnerException);
+            }
+            catch (HostDependencyException hostDependencyException)
+            {
+                return InternalServerError(hostDependencyException.InnerException);
+            }
+            catch (HostServiceAllException hostServiceAllException)
+            {
+                return InternalServerError(hostServiceAllException.InnerException);
+            }
+        }
     }
 }

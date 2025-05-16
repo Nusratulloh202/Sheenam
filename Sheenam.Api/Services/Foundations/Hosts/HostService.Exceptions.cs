@@ -51,6 +51,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                 throw CreateAndLogCriticalDependencyException(failedHostStorageException);
             }
 
+
             catch (SqlException sqlException)
             {
                 var failedHostStorageException =
