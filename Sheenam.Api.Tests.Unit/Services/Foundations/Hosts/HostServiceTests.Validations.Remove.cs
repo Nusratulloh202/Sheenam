@@ -68,7 +68,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
                      broker.SelectByIdHostAsync(inputHostId))
                     .ReturnsAsync(noHost);
             //when
-            ValueTask <Host> removeHostTask =
+            ValueTask<Host> removeHostTask =
                 this.hostService.RemoveHostAsync(inputHostId);
             HostValidationException actualHostValidationException =
                 await Assert.ThrowsAsync<HostValidationException>(removeHostTask.AsTask);
