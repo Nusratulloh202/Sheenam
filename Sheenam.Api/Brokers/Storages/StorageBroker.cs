@@ -30,6 +30,13 @@ namespace Sheenam.Api.Brokers.Storages
 
             return @object;
         }
+        public async ValueTask<T> DeleteAsync<T>(T @object)
+        {
+            var broker = new StorageBroker(configuration);
+            broker.Entry(@object).State = EntityState.Deleted;
+            await broker.SaveChangesAsync();
+            return @object;
+        }
 
 
         public override void Dispose() { }
