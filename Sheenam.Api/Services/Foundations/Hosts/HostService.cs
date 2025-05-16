@@ -52,7 +52,7 @@ namespace Sheenam.Api.Services.Foundations.Hosts
         public ValueTask<Host> RemoveHostAsync(Guid hostId) =>
             TryCatch(async () =>
             {
-                //ValidateHostId(hostId);
+                ValidateHostId(hostId);
                 Host maybeHost = await this.storageBroker.SelectByIdHostAsync(hostId);
                 ValidateStorageHost(maybeHost, hostId);
                 return await this.storageBroker.DeleteHostAsync(maybeHost);
