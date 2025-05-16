@@ -102,5 +102,36 @@ namespace Sheenam.Api.Controllers
                 return InternalServerError(hostServiceAllException.InnerException);
             }
         }
+        [HttpPut]
+        public async Task<ActionResult<Host>> PutHostAsync(Host host)
+        {
+            try
+            {
+                Host modifyHost = await this.hostService.ModifyHostAsync(host);
+                return Ok(modifyHost);
+            }
+            catch (HostValidationException hostValidationException)
+            {
+                return BadRequest(hostValidationException.InnerException); 
+            }
+
+            catch (HostDependencyValidationException hostDependencyValidationException)
+                when (hostDependencyValidationException.InnerException is AlreadyExistHostException)
+            {
+                return Conflict(hostDependencyValidationException.InnerException);
+            }
+            catch (HostDependencyValidationException hostDependencyValidationException)
+            {
+                return BadRequest(hostDependencyValidationException.InnerException);
+            }
+            catch (HostDependencyException hostDependencyException)
+            {
+                return InternalServerError(hostDependencyException.InnerException);
+            }
+            catch (HostServiceAllException hostServiceAllException)
+            {
+                return InternalServerError(hostServiceAllException.InnerException);
+            }
+        }
     }
 }
