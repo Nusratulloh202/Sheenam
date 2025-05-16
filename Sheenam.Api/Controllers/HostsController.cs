@@ -112,7 +112,7 @@ namespace Sheenam.Api.Controllers
             }
             catch (HostValidationException hostValidationException)
             {
-                return BadRequest(hostValidationException.InnerException); 
+                return BadRequest(hostValidationException.InnerException);
             }
 
             catch (HostDependencyValidationException hostDependencyValidationException)
