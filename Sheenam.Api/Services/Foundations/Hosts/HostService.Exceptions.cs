@@ -64,12 +64,12 @@ namespace Sheenam.Api.Services.Foundations.Hosts
                     new AlreadyExistHostException(dublicateKeyException);
                 throw CreateAndLogDependencyValidationException(alreadyExistHostException);
             }
-            //catch (Exception exception)
-            //{
-            //    var failedHostServiceException =
-            //        new FailedHostServiceException(exception);
-            //    throw CreateAndLogServiceAllException(failedHostServiceException);
-            //}
+            catch (Exception exception)
+            {
+                var failedHostServiceException =
+                    new FailedHostServiceException(exception);
+                throw CreateAndLogServiceAllException(failedHostServiceException);
+            }
         }
         private IQueryable<Host> TryCatch(ReturningHostsFunction returningHostsFunction)
         {
