@@ -6,11 +6,11 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions
 {
-    public class HomeDependencException : Xeption
+    public class HomeValidationException:Xeption
     {
-        public HomeDependencException(Xeption innerException)
-                
-            :base(message:"Home dependecy error occured, contact support. ", innerException)
+        public HomeValidationException(Xeption innerException)
+            :base(message: "Home validation error occurred, fix the errors and try again",
+                  innerException)
         {}
     }
 }
