@@ -2,6 +2,8 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,24 @@ namespace Sheenam.Api.Brokers.Storages
         {
             string connectionString = this.configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
+        }
+        public async ValueTask<T> InsertAsync<T>(T @object) where T : class
+        {
+            var broker = new StorageBroker(configuration);
+            await broker.Set<T>().AddAsync(@object);
+            await broker.SaveChangesAsync();
+
+            return @object;
+        }
+        public IQueryable<T> SelectAll<T>() where T : class
+        {
+            var broker = new StorageBroker(configuration);
+            return broker.Set<T>();
+        }
+        public async ValueTask<T> SelectAsync<T>(Guid id) where T : class
+        {
+            var broker = new StorageBroker(configuration);
+            return await broker.Set<T>().FindAsync(id);
         }
         public async ValueTask<T> UpdateAsync<T>(T @object)
         {

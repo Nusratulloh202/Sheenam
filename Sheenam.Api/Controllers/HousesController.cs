@@ -10,7 +10,7 @@ namespace Sheenam.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class HomeController : RESTFulController
+    public class HousesController : RESTFulController
     {
         [HttpGet]
         public ActionResult<string> Get() =>

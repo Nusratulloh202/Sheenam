@@ -12,8 +12,8 @@ using Sheenam.Api.Brokers.Storages;
 namespace Sheenam.Api.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    [Migration("20250407062158_InitialHostMigration")]
-    partial class InitialHostMigration
+    [Migration("20250517093113_AddHomeModel")]
+    partial class AddHomeModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,58 @@ namespace Sheenam.Api.Migrations
                     b.ToTable("Guests");
                 });
 
+            modelBuilder.Entity("Sheenam.Api.Models.Foundations.Home.Home", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("AreaInSquareMeters")
+                        .HasColumnType("float");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("HostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsPetAllowed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsShared")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsVacant")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberOfBathrooms")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfBedrooms")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HostId");
+
+                    b.ToTable("Home");
+                });
+
             modelBuilder.Entity("Sheenam.Api.Models.Foundations.Hosts.Host", b =>
                 {
                     b.Property<Guid>("Id")
@@ -84,6 +136,17 @@ namespace Sheenam.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hosts");
+                });
+
+            modelBuilder.Entity("Sheenam.Api.Models.Foundations.Home.Home", b =>
+                {
+                    b.HasOne("Sheenam.Api.Models.Foundations.Hosts.Host", "Host")
+                        .WithMany()
+                        .HasForeignKey("HostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Host");
                 });
 #pragma warning restore 612, 618
         }
