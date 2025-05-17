@@ -6,6 +6,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
+using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
+using Xeptions;
 
 namespace Sheenam.Api.Services.Foundations.Houses
 {
@@ -19,10 +22,19 @@ namespace Sheenam.Api.Services.Foundations.Houses
             {
                 return await returningHomeFunction();
             }
-            catch (Exception exception)
+            catch (NullHomeException nullHomeException)
             {
-                throw exception;
+                throw CreateAndLogValidationException(nullHomeException);
             }
+        }
+
+        private HomeValidationException CreateAndLogValidationException(Xeption exception)
+        {
+            HomeValidationException homeValidationException =
+                new HomeValidationException(exception);
+
+            this.loggingBroker.LogError(homeValidationException);
+            return homeValidationException;
         }
     }
 }
