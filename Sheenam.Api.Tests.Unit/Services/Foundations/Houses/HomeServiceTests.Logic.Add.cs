@@ -14,28 +14,28 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
         [Fact]
         public async Task ShouldAddHomeAsync()
         {
-            ////given
-            //Home randomHome = CreateRandomHome();
-            //Home inputHome = randomHome;
-            //Home storageHome = inputHome;
-            //Home expectedHome = storageHome.DeepClone();
+            //given
+            Home randomHome = CreateRandomHome();
+            Home inputHome = randomHome;
+            Home storageHome = inputHome;
+            Home expectedHome = storageHome.DeepClone();
 
-            //this.storageBrokerMock.Setup(broker=>
-            //    broker.InsertHomeAsync(inputHome))
-            //        .ReturnsAsync(storageHome);
+            this.storageBrokerMock.Setup(broker=>
+                broker.InsertHomeAsync(inputHome))
+                    .ReturnsAsync(storageHome);
 
-            ////when
-            //Home actualHome =
-            //    await this.homeService.AddHomeAsync(inputHome);
+            //when
+            Home actualHome =
+                await this.homeService.AddHomeAsync(inputHome);
 
-            ////then
-            //actualHome.Should().BeEquivalentTo(expectedHome);
+            //then
+            actualHome.Should().BeEquivalentTo(expectedHome);
 
-            //this.storageBrokerMock.Verify(broker =>
-            //    broker.InsertHomeAsync(inputHome),
-            //        Times.Once());
-            //this.storageBrokerMock.VerifyNoOtherCalls();
-            //this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertHomeAsync(inputHome),
+                    Times.Once());
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
 
