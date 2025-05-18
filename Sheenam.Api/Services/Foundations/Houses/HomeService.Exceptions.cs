@@ -26,6 +26,10 @@ namespace Sheenam.Api.Services.Foundations.Houses
             {
                 throw CreateAndLogValidationException(nullHomeException);
             }
+            catch (InvalidHomeException invalidHomeException)
+            {
+                throw CreateAndLogValidationException(invalidHomeException);
+            }
         }
 
         private HomeValidationException CreateAndLogValidationException(Xeption exception)

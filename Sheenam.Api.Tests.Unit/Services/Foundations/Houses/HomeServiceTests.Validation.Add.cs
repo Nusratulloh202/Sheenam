@@ -52,20 +52,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             //given
             var invalidHome = new Home
             {
-                Id = Guid.Empty,
-                HostId = Guid.Empty,
-                Address = null,
-                AdditionalInfo = null,
-                IsVacant = false,
-                NumberOfBedrooms = 0,
-                NumberOfBathrooms = 0,
-                AreaInSquareMeters = 0,
-                IsPetAllowed = false,
-                IsShared = false,
-                Type = default,
-                Price = 0,
-                CreatedDate = default,
-                UpdatedDate = default
+                Address = invalidString
+               
             };
             var invalidHomeException = new InvalidHomeException();
 
@@ -75,35 +63,46 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
 
             invalidHomeException.AddData(
                 key: nameof(Home.HostId),
-                values: "HostId is required");
+                values: "Id is required");
 
             invalidHomeException.AddData(
                 key: nameof(Home.Address),
                 values: "Text is required");
-
+            invalidHomeException.AddData(
+                key: nameof(Home.AdditionalInfo),
+                values: "Text is required");
+            invalidHomeException.AddData(
+                key: nameof(Home.IsShared),
+                values: "Boolean is required");
+            invalidHomeException.AddData(
+                key: nameof(Home.IsVacant),
+                values: "Boolean is required");
+            invalidHomeException.AddData(
+                key: nameof(Home.IsPetAllowed),
+                values: "Boolean is required");
             invalidHomeException.AddData(
                 key: nameof(Home.NumberOfBedrooms),
-                values: "At least 1 bedroom is required");
+                values: "Number is required");
 
             invalidHomeException.AddData(
                 key: nameof(Home.NumberOfBathrooms),
-                values: "At least 1 bathroom is required");
+                values: "Number is required");
 
             invalidHomeException.AddData(
                 key: nameof(Home.AreaInSquareMeters),
-                values: "Area must be greater than 0");
+                values: "Number is required");
 
             invalidHomeException.AddData(
                 key: nameof(Home.Price),
-                values: "Price must be greater than 0");
+                values: "Number is required");
 
             invalidHomeException.AddData(
                 key: nameof(Home.CreatedDate),
-                values: "CreatedDate is required");
+                values: "Date is required");
 
             invalidHomeException.AddData(
                 key: nameof(Home.UpdatedDate),
-                values: "UpdatedDate is required");
+                values: "Date is required");
 
             var expectedHomeValidationException =
                 new HomeValidationException(invalidHomeException);
