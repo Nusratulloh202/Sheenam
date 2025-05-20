@@ -28,7 +28,7 @@ namespace Sheenam.Api.Services.Foundations.Houses
             }
             catch (InvalidHomeException invalidHomeException)
             {
-                throw CreateAndLogValidationException(invalidHomeException);
+                throw CreateAndLogValidationException2(invalidHomeException);
             }
         }
 
@@ -36,6 +36,14 @@ namespace Sheenam.Api.Services.Foundations.Houses
         {
             HomeValidationException homeValidationException =
                 new HomeValidationException(exception);
+
+            this.loggingBroker.LogError(homeValidationException);
+            return homeValidationException;
+        }
+        private HomeValidationException CreateAndLogValidationException2(Xeption exception)
+        {
+            HomeValidationException homeValidationException =
+                 new HomeValidationException(exception);
 
             this.loggingBroker.LogError(homeValidationException);
             return homeValidationException;

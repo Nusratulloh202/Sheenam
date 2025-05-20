@@ -5,6 +5,7 @@
 using FluentAssertions;
 using Moq;
 using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Home.Enums;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
 
@@ -17,7 +18,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
         {
             // given
             Home nullHome = null;
-            var nullHomeException = new NullHomeException();
+            var nullHomeException = new  NullHomeException();
 
             var expectedHomeValidationException =
                 new HomeValidationException(nullHomeException);
@@ -128,6 +129,41 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertHomeAsync(It.IsAny<Home>()),
                     Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnAddIfHomeTypedAndLogItAsync()
+        {
+            //given
+            Home randomHome = CreateRandomHome();
+            Home invalidHome = randomHome;
+            invalidHome.Type = GetInvalidEnum<HomeType>();
+            var invalidHomeException = new InvalidHomeException();
+            invalidHomeException.AddData(
+                key: nameof(Home.Type),
+                values: "Value is invalid");
+            var expectedHomeValidationException = new HomeValidationException(invalidHomeException);
+
+            //when
+            ValueTask<Home> addHomeTask =
+                         this.homeService.AddHomeAsync(invalidHome);
+
+            //then
+            HomeValidationException actualHomeValidationException =
+                await Assert.ThrowsAsync<HomeValidationException>(() =>
+                    addHomeTask.AsTask());
+           actualHomeValidationException.Should().BeEquivalentTo(
+                expectedHomeValidationException);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedHomeValidationException))),
+                Times.Once());
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertHomeAsync(It.IsAny<Home>()),
+                Times.Never());
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();

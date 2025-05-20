@@ -34,6 +34,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertHomeAsync(inputHome),
                     Times.Once());
+
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
