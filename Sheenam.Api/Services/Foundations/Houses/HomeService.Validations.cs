@@ -5,7 +5,6 @@
 using System;
 using Sheenam.Api.Models.Foundations.Home;
 using Sheenam.Api.Models.Foundations.Home.Enums;
-using Sheenam.Api.Models.Foundations.Hosts.Exceptions.SmallExceptions;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
 
 namespace Sheenam.Api.Services.Foundations.Houses
@@ -58,7 +57,7 @@ namespace Sheenam.Api.Services.Foundations.Houses
         };
         private static dynamic IsInvalid(decimal decimalNumber) => new
         {
-            Condition = decimalNumber <=0,
+            Condition = decimalNumber <= 0,
             Message = "Number is required"
         };
         private static dynamic IsInvalid(int intNumber) => new

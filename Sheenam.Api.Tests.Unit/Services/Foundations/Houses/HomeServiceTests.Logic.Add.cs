@@ -20,7 +20,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             Home storageHome = inputHome;
             Home expectedHome = storageHome.DeepClone();
 
-            this.storageBrokerMock.Setup(broker=>
+            this.storageBrokerMock.Setup(broker =>
                 broker.InsertHomeAsync(inputHome))
                     .ReturnsAsync(storageHome);
 

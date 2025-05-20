@@ -138,6 +138,6 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Hosts
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-        }   
+        }
     }
 }

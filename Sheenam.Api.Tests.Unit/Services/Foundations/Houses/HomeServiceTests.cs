@@ -3,16 +3,16 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System.Linq.Expressions;
-using Microsoft.Data.SqlClient;
 using System.Runtime.Serialization;
+using Microsoft.Data.SqlClient;
 using Moq;
 using Sheenam.Api.Brokers.Logings;
 using Sheenam.Api.Brokers.Storages;
 using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Home.Enums;
 using Sheenam.Api.Services.Foundations.Houses;
 using Tynamix.ObjectFiller;
 using Xeptions;
-using Sheenam.Api.Models.Foundations.Home.Enums;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
 {
@@ -31,7 +31,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
-        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)=>
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
                         actualException => actualException.SameExceptionAs(expectedException);
         private static Filler<Home> CreateHomeFiller(DateTimeOffset date)
         {
@@ -56,10 +56,10 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
 
         private IQueryable<Home> CreateRandomHouses()
         {
-            return  CreateHomeFiller(date: GetRandomDateTimeOffSet()).Create(count:GetRandomNumber()).AsQueryable();
+            return CreateHomeFiller(date: GetRandomDateTimeOffSet()).Create(count: GetRandomNumber()).AsQueryable();
         }
-        private static int GetRandomNumber()=>
-            new IntRange(min:1, max:10).GetValue();
+        private static int GetRandomNumber() =>
+            new IntRange(min: 1, max: 10).GetValue();
 
         private static SqlException GetSqlException() =>
            (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));

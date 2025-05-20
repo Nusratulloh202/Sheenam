@@ -7,7 +7,7 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions
 {
-    public class NotFoundHomeException:Xeption
+    public class NotFoundHomeException : Xeption
     {
         public NotFoundHomeException(Guid hostId)
             : base(message: $"Couldn't find host with id {hostId}.")

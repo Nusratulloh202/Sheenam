@@ -18,7 +18,7 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
         {
             // given
             Home nullHome = null;
-            var nullHomeException = new  NullHomeException();
+            var nullHomeException = new NullHomeException();
 
             var expectedHomeValidationException =
                 new HomeValidationException(nullHomeException);
@@ -28,8 +28,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             ValueTask<Home> addHomeTask =
                 this.homeService.AddHomeAsync(nullHome);
             // then
-           HomeValidationException actual= await Assert.ThrowsAsync<HomeValidationException>(() =>
-                addHomeTask.AsTask());
+            HomeValidationException actual = await Assert.ThrowsAsync<HomeValidationException>(() =>
+                 addHomeTask.AsTask());
             actual.Should().BeEquivalentTo(expectedHomeValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -128,8 +128,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             HomeValidationException actualHomeValidationException =
                 await Assert.ThrowsAsync<HomeValidationException>(() =>
                     addHomeTask.AsTask());
-           actualHomeValidationException.Should().BeEquivalentTo(
-                expectedHomeValidationException);
+            actualHomeValidationException.Should().BeEquivalentTo(
+                 expectedHomeValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(expectedHomeValidationException))),

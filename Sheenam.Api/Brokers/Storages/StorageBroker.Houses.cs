@@ -6,18 +6,17 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Sheenam.Api.Models.Foundations.Guests;
 using Sheenam.Api.Models.Foundations.Home;
 
 namespace Sheenam.Api.Brokers.Storages
 {
     public partial class StorageBroker
     {
-            public DbSet<Home> Home { get; set; }
+        public DbSet<Home> Home { get; set; }
 
-        public async ValueTask<Home> InsertHomeAsync(Home home)=>
+        public async ValueTask<Home> InsertHomeAsync(Home home) =>
             await InsertAsync(home);
-        public IQueryable<Home> SelectAllHomes()=>
+        public IQueryable<Home> SelectAllHomes() =>
             SelectAll<Home>();
 
         public async ValueTask<Home> SelectHomeByIdAsync(Guid homeId) =>

@@ -6,10 +6,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions
 {
-    public class InvalidHomeException:Xeption
+    public class InvalidHomeException : Xeption
     {
         public InvalidHomeException()
             : base(message: "Home is invalid.")
-        {}
+        { }
     }
 }
