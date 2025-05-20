@@ -12,6 +12,7 @@ using Sheenam.Api.Models.Foundations.Home;
 using Sheenam.Api.Services.Foundations.Houses;
 using Tynamix.ObjectFiller;
 using Xeptions;
+using Sheenam.Api.Models.Foundations.Home.Enums;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
 {
@@ -36,8 +37,16 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
         {
             var filler = new Filler<Home>();
             filler.Setup().OnType<DateTimeOffset>().Use(date);
-            filler.Setup().OnType<string>().Use(string.Empty);
-            filler.Setup().OnType<decimal>().Use(0.0m);
+            filler.Setup().OnProperty(home => home.Address).Use(GetRandomString());
+            filler.Setup().OnProperty(home => home.AdditionalInfo).Use(GetRandomString());
+            filler.Setup().OnProperty(home => home.Price).Use(() => new decimal(new Random().Next(1, 10000)));
+            filler.Setup().OnProperty(home => home.NumberOfBedrooms).Use(() => new Random().Next(1, 10));
+            filler.Setup().OnProperty(home => home.NumberOfBathrooms).Use(() => new Random().Next(1, 10));
+            filler.Setup().OnProperty(home => home.AreaInSquareMeters).Use(() => new Random().NextDouble() * 100 + 20); // 20 dan katta
+            filler.Setup().OnProperty(home => home.IsVacant).Use(true);
+            filler.Setup().OnProperty(home => home.IsPetAllowed).Use(true);
+            filler.Setup().OnProperty(home => home.IsShared).Use(true);
+            filler.Setup().OnProperty(home => home.Type).Use(HomeType.Duplex);
             return filler;
         }
         private static DateTimeOffset GetRandomDateTimeOffSet() =>

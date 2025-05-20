@@ -19,7 +19,7 @@ namespace Sheenam.Api.Services.Foundations.Houses
                 throw new NullHomeException();
             }
         }
-        private void ValidateHome(Home home)
+        private static void ValidateHome(Home home)
         {
             ValidateHomeNotNull(home);
             Validate(
@@ -58,17 +58,17 @@ namespace Sheenam.Api.Services.Foundations.Houses
         };
         private static dynamic IsInvalid(decimal decimalNumber) => new
         {
-            Condition = decimalNumber == default,
+            Condition = decimalNumber <=0,
             Message = "Number is required"
         };
         private static dynamic IsInvalid(int intNumber) => new
         {
-            Condition = intNumber == default,
+            Condition = intNumber <= 0,
             Message = "Number is required"
         };
         private static dynamic IsInvalid(double doubleNumber) => new
         {
-            Condition = doubleNumber == default,
+            Condition = doubleNumber <= 0,
             Message = "Number is required"
         };
         private static dynamic IsInvalid(bool boolean) => new
@@ -78,7 +78,7 @@ namespace Sheenam.Api.Services.Foundations.Houses
         };
         private static dynamic IsInvalid(HomeType homeType) => new
         {
-            Condition = Enum.IsDefined(homeType) is false,
+            Condition = Enum.IsDefined(typeof(HomeType), homeType) is false,
             Message = "Value is invalid"
         };
 

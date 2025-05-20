@@ -45,90 +45,64 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
         }
 
         [Theory]
-        [InlineData (null)]
+        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
         public async Task ShouldThrowValidationExceptionOnAddIfHomeIsInvalidAndLogItAsync(string invalidString)
         {
-            //given
+            // given
             var invalidHome = new Home
             {
-                Address = invalidString
-               
+                Id = Guid.Empty,
+                HostId = Guid.Empty,
+                Address = invalidString,
+                AdditionalInfo = invalidString,
+                IsShared = default,
+                IsVacant = default,
+                IsPetAllowed = default,
+                NumberOfBedrooms = default,
+                NumberOfBathrooms = default,
+                AreaInSquareMeters = default,
+                Price = default,
+                CreatedDate = default,
+                UpdatedDate = default
             };
+
             var invalidHomeException = new InvalidHomeException();
 
-            invalidHomeException.AddData(
-                   key: nameof(Home.Id),
-                   values: "Id is required");
-
-            invalidHomeException.AddData(
-                key: nameof(Home.HostId),
-                values: "Id is required");
-
-            invalidHomeException.AddData(
-                key: nameof(Home.Address),
-                values: "Text is required");
-            invalidHomeException.AddData(
-                key: nameof(Home.AdditionalInfo),
-                values: "Text is required");
-            invalidHomeException.AddData(
-                key: nameof(Home.IsShared),
-                values: "Boolean is required");
-            invalidHomeException.AddData(
-                key: nameof(Home.IsVacant),
-                values: "Boolean is required");
-            invalidHomeException.AddData(
-                key: nameof(Home.IsPetAllowed),
-                values: "Boolean is required");
-            invalidHomeException.AddData(
-                key: nameof(Home.NumberOfBedrooms),
-                values: "Number is required");
-
-            invalidHomeException.AddData(
-                key: nameof(Home.NumberOfBathrooms),
-                values: "Number is required");
-
-            invalidHomeException.AddData(
-                key: nameof(Home.AreaInSquareMeters),
-                values: "Number is required");
-
-            invalidHomeException.AddData(
-                key: nameof(Home.Price),
-                values: "Number is required");
-
-            invalidHomeException.AddData(
-                key: nameof(Home.CreatedDate),
-                values: "Date is required");
-
-            invalidHomeException.AddData(
-                key: nameof(Home.UpdatedDate),
-                values: "Date is required");
+            invalidHomeException.AddData(nameof(Home.Id), "Id is required");
+            invalidHomeException.AddData(nameof(Home.HostId), "Id is required");
+            invalidHomeException.AddData(nameof(Home.Address), "Text is required");
+            invalidHomeException.AddData(nameof(Home.AdditionalInfo), "Text is required");
+            invalidHomeException.AddData(nameof(Home.IsShared), "Boolean is required");
+            invalidHomeException.AddData(nameof(Home.IsVacant), "Boolean is required");
+            invalidHomeException.AddData(nameof(Home.IsPetAllowed), "Boolean is required");
+            invalidHomeException.AddData(nameof(Home.NumberOfBedrooms), "Number is required");
+            invalidHomeException.AddData(nameof(Home.NumberOfBathrooms), "Number is required");
+            invalidHomeException.AddData(nameof(Home.AreaInSquareMeters), "Number is required");
+            invalidHomeException.AddData(nameof(Home.Price), "Number is required");
+            invalidHomeException.AddData(nameof(Home.CreatedDate), "Date is required");
+            invalidHomeException.AddData(nameof(Home.UpdatedDate), "Date is required");
 
             var expectedHomeValidationException =
                 new HomeValidationException(invalidHomeException);
 
             // when
-
-            ValueTask<Home> addHomeTask =
-                this.homeService.AddHomeAsync(invalidHome);
+            ValueTask<Home> addHomeTask = this.homeService.AddHomeAsync(invalidHome);
 
             HomeValidationException actualHomeValidationException =
-                await Assert.ThrowsAsync<HomeValidationException>(() =>
-                    addHomeTask.AsTask());
+                await Assert.ThrowsAsync<HomeValidationException>(() => addHomeTask.AsTask());
 
-            //then
-            actualHomeValidationException.Should().BeEquivalentTo(
-                expectedHomeValidationException);
+            // then
+            actualHomeValidationException.Should().BeEquivalentTo(expectedHomeValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedHomeValidationException))),
-                        Times.Once);
+                broker.LogError(It.Is(SameExceptionAs(expectedHomeValidationException))),
+                Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertHomeAsync(It.IsAny<Home>()),
-                    Times.Never);
+                Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
