@@ -27,7 +27,7 @@ namespace Sheenam.Api.Brokers.Storages
             return guestEntityEntry.Entity;
         }
 
-       
+
         public IQueryable<Guest> SelectAllGuests()
         {
             var guests = SelectAll<Guest>();

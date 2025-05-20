@@ -2,7 +2,6 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Sheenam.Api.Models.Foundations.Home;
@@ -26,12 +25,24 @@ namespace Sheenam.Api.Services.Foundations.Houses
             {
                 throw CreateAndLogValidationException(nullHomeException);
             }
+            catch (InvalidHomeException invalidHomeException)
+            {
+                throw CreateAndLogValidationException2(invalidHomeException);
+            }
         }
 
         private HomeValidationException CreateAndLogValidationException(Xeption exception)
         {
             HomeValidationException homeValidationException =
                 new HomeValidationException(exception);
+
+            this.loggingBroker.LogError(homeValidationException);
+            return homeValidationException;
+        }
+        private HomeValidationException CreateAndLogValidationException2(Xeption exception)
+        {
+            HomeValidationException homeValidationException =
+                 new HomeValidationException(exception);
 
             this.loggingBroker.LogError(homeValidationException);
             return homeValidationException;

@@ -6,10 +6,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions
 {
-    public class NullHomeException:Xeption
+    public class NullHomeException : Xeption
     {
         public NullHomeException()
-            :base("Home is null. Try Again.")
-        {}
+            : base("Home is null. Try Again.")
+        { }
     }
 }

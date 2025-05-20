@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions
 {
-    public class AlreadyExistHomeException:Xeption
+    public class AlreadyExistHomeException : Xeption
     {
         public AlreadyExistHomeException(Exception exception)
-            :base(message: "Host with the same id already exists.", innerException: exception)
-        {}
+            : base(message: "Host with the same id already exists.", innerException: exception)
+        { }
     }
 }

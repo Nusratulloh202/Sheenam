@@ -6,10 +6,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions
 {
-    public class HomeDependencyValidationException:Xeption
+    public class HomeDependencyValidationException : Xeption
     {
         public HomeDependencyValidationException(Xeption innerException)
-            : base(message:"Home dependency validation error occurrs. ", innerException)
-        {}
+            : base(message: "Home dependency validation error occurrs. ", innerException)
+        { }
     }
 }

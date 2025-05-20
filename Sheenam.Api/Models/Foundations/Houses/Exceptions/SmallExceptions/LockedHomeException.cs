@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions
 {
-    public class LockedHomeException:Xeption
+    public class LockedHomeException : Xeption
     {
         public LockedHomeException(Exception innerException)
             : base(message: "Home is locked, please unlock it to proceed.", innerException)
-        {}
+        { }
     }
 }

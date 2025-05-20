@@ -7,10 +7,10 @@ using Xeptions;
 
 namespace Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions
 {
-    public class FailedHomeServiceException:Xeption
+    public class FailedHomeServiceException : Xeption
     {
         public FailedHomeServiceException(Exception innerException)
-            :base(
+            : base(
                 message: "Failed home service error occurred, contact support.",
                 innerException)
         { }
