@@ -46,13 +46,13 @@ namespace Sheenam.Api.Services.Foundations.Houses
 
                 throw CreateAndLogDependencyException(failedHomeStorageException);
             }
-            //catch(Exception serviceException)
-            //{
-            //    FailedHomeServiceException failedHomeServiceException = 
-            //        new FailedHomeServiceException(serviceException);
+            catch(Exception serviceException)
+            {
+                FailedHomeServiceException failedHomeServiceException = 
+                    new FailedHomeServiceException(serviceException);
 
-            //    throw CreateAndLogServiceException(failedHomeServiceException);
-            //}
+                throw CreateAndLogServiceException(failedHomeServiceException);
+            }
 
         }
 
