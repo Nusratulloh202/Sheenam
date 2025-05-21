@@ -4,6 +4,7 @@
 //==================================================
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RESTFulSense.Controllers;
 using Sheenam.Api.Models.Foundations.Houses;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
