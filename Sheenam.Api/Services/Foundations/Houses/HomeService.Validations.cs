@@ -70,7 +70,7 @@ namespace Sheenam.Api.Services.Foundations.Houses
             Condition = doubleNumber <= 0,
             Message = "Number is required"
         };
-        private static dynamic IsInvalid(bool boolean) => new
+        private static dynamic IsInvalid(bool? boolean) => new
         {
             Condition = boolean == default,
             Message = "Boolean is required"
