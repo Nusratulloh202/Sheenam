@@ -4,9 +4,9 @@
 //==================================================
 using System;
 using System.ComponentModel.DataAnnotations;
-using Sheenam.Api.Models.Foundations.Houses.Enums;
-using Sheenam.Api.Models.Foundations.Hosts;
 using System.Text.Json.Serialization;
+using Sheenam.Api.Models.Foundations.Hosts;
+using Sheenam.Api.Models.Foundations.Houses.Enums;
 
 namespace Sheenam.Api.Models.Foundations.Houses
 {
