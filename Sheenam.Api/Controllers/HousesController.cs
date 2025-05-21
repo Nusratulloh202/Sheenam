@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
-using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Houses;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
 using Sheenam.Api.Services.Foundations.Houses;

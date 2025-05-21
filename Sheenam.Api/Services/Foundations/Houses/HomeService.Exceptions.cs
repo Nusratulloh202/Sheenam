@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
-using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Houses;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
 using Xeptions;

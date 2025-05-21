@@ -6,7 +6,7 @@ using EFxceptions.Models.Exceptions;
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Moq;
-using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Houses;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
 

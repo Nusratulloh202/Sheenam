@@ -4,10 +4,10 @@
 //==================================================
 using System;
 using System.ComponentModel.DataAnnotations;
-using Sheenam.Api.Models.Foundations.Home.Enums;
+using Sheenam.Api.Models.Foundations.Houses.Enums;
 using Sheenam.Api.Models.Foundations.Hosts;
 
-namespace Sheenam.Api.Models.Foundations.Home
+namespace Sheenam.Api.Models.Foundations.Houses
 {
     public class Home
     {
