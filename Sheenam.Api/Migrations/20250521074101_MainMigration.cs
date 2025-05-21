@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Reflection.Emit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Sheenam.Api.Models.Foundations.Houses;
 
 #nullable disable
 

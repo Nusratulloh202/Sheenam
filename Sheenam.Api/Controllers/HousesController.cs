@@ -4,7 +4,6 @@
 //==================================================
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RESTFulSense.Controllers;
 using Sheenam.Api.Models.Foundations.Houses;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
@@ -21,7 +20,7 @@ namespace Sheenam.Api.Controllers
         private readonly IHomeService homeService;
         public HousesController(IHomeService homeService)
         {
-                this.homeService = homeService;
+            this.homeService = homeService;
         }
         [HttpPost]
         public async ValueTask<ActionResult<Home>> PostHomeAsync(Home home)
@@ -40,7 +39,7 @@ namespace Sheenam.Api.Controllers
             {
                 return Conflict(homeDependencyValidationException.InnerException);
             }
-            catch(HomeDependencyValidationException homeDependencyValidationException)
+            catch (HomeDependencyValidationException homeDependencyValidationException)
             {
                 return BadRequest(homeDependencyValidationException.InnerException);
             }

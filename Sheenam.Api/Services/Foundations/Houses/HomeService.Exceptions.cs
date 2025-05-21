@@ -34,21 +34,21 @@ namespace Sheenam.Api.Services.Foundations.Houses
             }
             catch (DuplicateKeyException duplicateKeyException)
             {
-                var alreadyExistHomeException = 
+                var alreadyExistHomeException =
                     new AlreadyExistHomeException(duplicateKeyException);
 
                 throw CreateAndLogDependencyValidationException(alreadyExistHomeException);
             }
-            catch(SqlException sqlException)
+            catch (SqlException sqlException)
             {
                 var failedHomeStorageException =
                     new FailedHomeStorageException(sqlException);
 
                 throw CreateAndLogDependencyException(failedHomeStorageException);
             }
-            catch(Exception serviceException)
+            catch (Exception serviceException)
             {
-                FailedHomeServiceException failedHomeServiceException = 
+                FailedHomeServiceException failedHomeServiceException =
                     new FailedHomeServiceException(serviceException);
 
                 throw CreateAndLogServiceException(failedHomeServiceException);

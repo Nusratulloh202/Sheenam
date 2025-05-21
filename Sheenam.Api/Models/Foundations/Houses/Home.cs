@@ -4,8 +4,9 @@
 //==================================================
 using System;
 using System.ComponentModel.DataAnnotations;
-using Sheenam.Api.Models.Foundations.Houses.Enums;
+using System.Text.Json.Serialization;
 using Sheenam.Api.Models.Foundations.Hosts;
+using Sheenam.Api.Models.Foundations.Houses.Enums;
 
 namespace Sheenam.Api.Models.Foundations.Houses
 {
@@ -13,6 +14,7 @@ namespace Sheenam.Api.Models.Foundations.Houses
     {
         public Guid Id { get; set; }
         public Guid HostId { get; set; }
+        [JsonIgnore]
         public Host Host { get; set; } // Navigation property
         public string Address { get; set; }
         public string AdditionalInfo { get; set; }
