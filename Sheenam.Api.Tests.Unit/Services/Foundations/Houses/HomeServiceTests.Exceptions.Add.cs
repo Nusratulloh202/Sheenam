@@ -64,8 +64,8 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             var alreadyExistHomeException =
                 new AlreadyExistHomeException(duplicateKeyException);
 
-            var expectedHomeDependencException = 
-                new HomeDependencException(alreadyExistHomeException);
+            var expectedHomeDependencyValidationException = 
+                new HomeDependencyValidationException(alreadyExistHomeException);
 
             this.storageBrokerMock.Setup(broker =>
                 broker.InsertHomeAsync(someHome))
@@ -75,20 +75,20 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
             ValueTask<Home> homeTask =
                 this.homeService.AddHomeAsync(someHome);
 
-            HomeDependencException actualHomeDependencyException =
-                await Assert.ThrowsAsync<HomeDependencException>(() =>
+            HomeDependencyValidationException actualHomeDependencyException =
+                await Assert.ThrowsAsync<HomeDependencyValidationException>(() =>
                     homeTask.AsTask());
 
             //then
             actualHomeDependencyException.Should()
-                .BeEquivalentTo(expectedHomeDependencException);
+                .BeEquivalentTo(expectedHomeDependencyValidationException);
 
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertHomeAsync(someHome),
                 Times.Once());
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogCritical(It.Is(SameExceptionAs(expectedHomeDependencException))),
+                broker.LogError(It.Is(SameExceptionAs(expectedHomeDependencyValidationException))),
                 Times.Once());
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
