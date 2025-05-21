@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using EFxceptions.Models.Exceptions;
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Moq;
@@ -49,6 +50,50 @@ namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+
         }
+            //Dublicat Key Exception
+        [Fact]
+        public async Task ShouldThrowDependencyValidationOnAddIfDublicateKeyErrorOccursAndLogItAsync()
+        {
+            //given
+            Home someHome = CreateRandomHome();
+            string message = GetRandomString();
+            var duplicateKeyException = new DuplicateKeyException(message);
+
+            var alreadyExistHomeException =
+                new AlreadyExistHomeException(duplicateKeyException);
+
+            var expectedHomeDependencException = 
+                new HomeDependencException(alreadyExistHomeException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertHomeAsync(someHome))
+                .ThrowsAsync(duplicateKeyException);
+
+            //when
+            ValueTask<Home> homeTask =
+                this.homeService.AddHomeAsync(someHome);
+
+            HomeDependencException actualHomeDependencyException =
+                await Assert.ThrowsAsync<HomeDependencException>(() =>
+                    homeTask.AsTask());
+
+            //then
+            actualHomeDependencyException.Should()
+                .BeEquivalentTo(expectedHomeDependencException);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertHomeAsync(someHome),
+                Times.Once());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogCritical(It.Is(SameExceptionAs(expectedHomeDependencException))),
+                Times.Once());
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
     }
 }
