@@ -5,7 +5,7 @@
 using FluentAssertions;
 using Force.DeepCloner;
 using Moq;
-using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Houses;
 
 namespace Sheenam.Api.Tests.Unit.Services.Foundations.Houses
 {

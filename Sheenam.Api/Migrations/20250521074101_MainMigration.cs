@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Reflection.Emit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Sheenam.Api.Models.Foundations.Houses;
 
 #nullable disable
 
 namespace Sheenam.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class AddHomeModel : Migration
+    public partial class MainMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -75,6 +78,7 @@ namespace Sheenam.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
 
             migrationBuilder.CreateIndex(
                 name: "IX_Home_HostId",

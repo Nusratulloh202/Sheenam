@@ -1,11 +1,11 @@
-﻿//==================================================
+﻿ //==================================================
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System.Threading.Tasks;
 using Sheenam.Api.Brokers.Logings;
 using Sheenam.Api.Brokers.Storages;
-using Sheenam.Api.Models.Foundations.Home;
+using Sheenam.Api.Models.Foundations.Houses;
 
 namespace Sheenam.Api.Services.Foundations.Houses
 {

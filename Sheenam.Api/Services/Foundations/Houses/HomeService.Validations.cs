@@ -3,8 +3,8 @@
 // Free To Use To Find Comfort and Peace
 //==================================================
 using System;
-using Sheenam.Api.Models.Foundations.Home;
-using Sheenam.Api.Models.Foundations.Home.Enums;
+using Sheenam.Api.Models.Foundations.Houses;
+using Sheenam.Api.Models.Foundations.Houses.Enums;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
 
 namespace Sheenam.Api.Services.Foundations.Houses
@@ -70,7 +70,7 @@ namespace Sheenam.Api.Services.Foundations.Houses
             Condition = doubleNumber <= 0,
             Message = "Number is required"
         };
-        private static dynamic IsInvalid(bool boolean) => new
+        private static dynamic IsInvalid(bool? boolean) => new
         {
             Condition = boolean == default,
             Message = "Boolean is required"

@@ -24,6 +24,7 @@ namespace Sheenam.Api.Brokers.Storages
             string connectionString = this.configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
         }
+
         public async ValueTask<T> InsertAsync<T>(T @object) where T : class
         {
             var broker = new StorageBroker(configuration);

@@ -4,8 +4,8 @@
 //==================================================
 using FluentAssertions;
 using Moq;
-using Sheenam.Api.Models.Foundations.Home;
-using Sheenam.Api.Models.Foundations.Home.Enums;
+using Sheenam.Api.Models.Foundations.Houses;
+using Sheenam.Api.Models.Foundations.Houses.Enums;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.BigExceptions;
 using Sheenam.Api.Models.Foundations.Houses.Exceptions.SmallExceptions;
 
