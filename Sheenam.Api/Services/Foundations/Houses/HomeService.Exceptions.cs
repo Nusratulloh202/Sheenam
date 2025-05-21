@@ -2,6 +2,7 @@
 // Copyright (c) Coalition of Good-Hearted Engineers
 // Free To Use To Find Comfort and Peace
 //==================================================
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
@@ -45,6 +46,13 @@ namespace Sheenam.Api.Services.Foundations.Houses
 
                 throw CreateAndLogDependencyException(failedHomeStorageException);
             }
+            //catch(Exception serviceException)
+            //{
+            //    FailedHomeServiceException failedHomeServiceException = 
+            //        new FailedHomeServiceException(serviceException);
+
+            //    throw CreateAndLogServiceException(failedHomeServiceException);
+            //}
 
         }
 
@@ -60,6 +68,7 @@ namespace Sheenam.Api.Services.Foundations.Houses
         {
             HomeDependencException homeDependencException =
                 new HomeDependencException(exception);
+
             this.loggingBroker.LogCritical(homeDependencException);
             return homeDependencException;
         }
@@ -67,8 +76,17 @@ namespace Sheenam.Api.Services.Foundations.Houses
         {
             HomeDependencyValidationException homeDependencyValidationException =
                 new HomeDependencyValidationException(exception);
+
             this.loggingBroker.LogError(homeDependencyValidationException);
             return homeDependencyValidationException;
+        }
+        private HomeServiceException CreateAndLogServiceException(Xeption exception)
+        {
+            HomeServiceException homeServiceException =
+                new HomeServiceException(exception);
+
+            this.loggingBroker.LogError(homeServiceException);
+            return homeServiceException;
         }
 
     }
